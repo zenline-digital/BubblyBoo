@@ -115,7 +115,7 @@ function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = rand(i + 
 function pick(arr){ return arr[rand(arr.length)]; }
 function mk(name, show, o = {}){
   return Object.assign({ name, show, label: show, text: name,
-    say: `This is ${name}. ${name}.`, ask: `Tap the ${name}.` }, o);
+    say: `This is ${name}!`, ask: `Tap the ${name}.` }, o);
 }
 const ones = ["","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
 const tens = ["","","twenty","thirty","forty","fifty"];
@@ -155,37 +155,37 @@ const TOPICS = [
       ...[["red","#e63946"],["blue","#1d6fd6"],["green","#2a9d4a"],["yellow","#ffd60a"],["orange","#ff8c1a"],
           ["purple","#8e44ad"],["pink","#ff6fb5"],["black","#222"],["brown","#8b5a2b"]]
         .map(([n,c]) => mk(n, `<span class="blob" style="background:${c}"></span>`,
-          { say: `Yeah, this is ${n}. ${n}!`, ask: `Tap the ${n} one.` })),
-      mk("circle","⚪",{ say:"Yeah, this is a circle. Circle!", ask:"Tap the circle." }),
-      mk("square","🟦",{ say:"Yeah, this is a square. Square!", ask:"Tap the square." }),
-      mk("triangle","🔺",{ say:"Yeah, this is a triangle. Triangle!", ask:"Tap the triangle." }),
-      mk("star","⭐",{ say:"Yeah, this is a star. Star!", ask:"Tap the star." }),
-      mk("heart","❤️",{ say:"Yeah, this is a heart. Heart!", ask:"Tap the heart." })
+          { say: `Yeah, this is ${n}!`, ask: `Tap the ${n} one.` })),
+      mk("circle","⚪",{ say:"Yeah, this is a circle!", ask:"Tap the circle." }),
+      mk("square","🟦",{ say:"Yeah, this is a square!", ask:"Tap the square." }),
+      mk("triangle","🔺",{ say:"Yeah, this is a triangle!", ask:"Tap the triangle." }),
+      mk("star","⭐",{ say:"Yeah, this is a star!", ask:"Tap the star." }),
+      mk("heart","❤️",{ say:"Yeah, this is a heart!", ask:"Tap the heart." })
     ]},
-  { id:"numbers", icon:"🔢", title:"Numbers 1 to 50", intro:"Let's count to fifty!",
-    items: Array.from({length:50}, (_, i) => i + 1).map(n => mk(numWord(n), dots(n), {
+  { id:"numbers", icon:"🔢", title:"Numbers 1 to 20", intro:"Let's count to twenty!",
+    items: Array.from({length:20}, (_, i) => i + 1).map(n => mk(numWord(n), dots(n), {
       label: String(n), text: numWord(n),
-      say: `${numWord(n)}. ${numWord(n)}.`,
+      say: `${numWord(n)}!`,
       ask: "Count the stars. Which number is it?" }))
   },
   { id:"alphabet", icon:"🔤", title:"Alphabet & Sounds", intro:"Let's learn letter sounds!",
     items: ALPHA.map(([L, w, pic, s, tip]) => mk(L, `<span class="letter">${L}</span>`, {
       label: pic, text: `${L} is for ${w}`,
-      say: `${L} says ${s}, as in ${w}. ${w}!`,
+      say: `${L} says ${s}, as in ${w}!`,
       slow: `${s}... ${s}... ${w}`,
       tip, ask: `Which picture starts with ${L}?` }))
   },
   { id:"animals", icon:"🐶", title:"Animals", intro:"Let's meet some animals!",
     items: [["dog","🐶"],["cat","🐱"],["cow","🐮"],["pig","🐷"],["horse","🐴"],["chicken","🐔"],
             ["sheep","🐑"],["frog","🐸"],["lion","🦁"],["elephant","🐘"],["duck","🦆"]]
-      .map(([n,e]) => mk(n, e, { say: `This is a ${n}. ${n}!`, ask: `Tap the ${n}.` })) },
+      .map(([n,e]) => mk(n, e, { say: `This is a ${n}!`, ask: `Tap the ${n}.` })) },
   { id:"fruits", icon:"🍎", title:"Fruits & Vegetables", intro:"Let's find yummy fruits and vegetables!",
     items: [["apple","🍎"],["banana","🍌"],["grapes","🍇"],["orange","🍊"],["watermelon","🍉"],
             ["strawberry","🍓"],["carrot","🥕"],["broccoli","🥦"],["tomato","🍅"],["potato","🥔"],["corn","🌽"]]
-      .map(([n,e]) => mk(n, e, { say: `This is ${n}. ${n}!`, ask: `Tap the ${n}.` })) },
+      .map(([n,e]) => mk(n, e, { say: `This is ${n}!`, ask: `Tap the ${n}.` })) },
   { id:"body", icon:"🖐️", title:"Body Parts", intro:"Let's find our body parts!",
     items: [["nose","👃"],["eyes","👀"],["ears","👂"],["mouth","👄"],["hand","✋"],["foot","🦶"],["teeth","🦷"]]
-      .map(([n,e]) => mk(n, e, { say: `Point to your ${n}. ${n}!`, ask: `Find your ${n}.` })) },
+      .map(([n,e]) => mk(n, e, { say: `Point to your ${n}!`, ask: `Find your ${n}.` })) },
   { id:"days", icon:"📅", title:"Days, Weather & Seasons", intro:"Let's learn days, weather, and seasons!",
     items: [
       ...["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
@@ -201,7 +201,7 @@ const TOPICS = [
     ]},
   { id:"words", icon:"📖", title:"Simple Words", intro:"Let's read some first words!",
     items: ["the","and","I","see","a","is","it","to","you","my","go","big","up","look","can"]
-      .map(w => mk(w, `<span class="word">${w}</span>`, { say: `${w}. ${w}!`, ask: `Find the word ${w}.` })) },
+      .map(w => mk(w, `<span class="word">${w}</span>`, { say: `${w}!`, ask: `Find the word ${w}.` })) },
   { id:"patterns", icon:"🧩", title:"Patterns", intro:"Let's find what comes next!",
     items: PATTERNS.map(([n, seq, ans, spoken]) => mk(n, `<span class="pat">${seq} ❓</span>`, {
       label: ans, text: "What comes next?", say: spoken, ask: "What comes next?" })) }
