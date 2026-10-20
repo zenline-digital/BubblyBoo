@@ -12,16 +12,17 @@
 <style>
 :root{--bg:#fff7e6;--ink:#2b2d42;--accent:#ff7b54;--accent2:#4ea8de;--ok:#2a9d6f;}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html,body{margin:0;min-height:100%;font-family:"Comic Sans MS","Trebuchet MS",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:8px;flex-wrap:wrap}
-h1{font-size:1.6rem;margin:0}
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;gap:8px;flex-wrap:wrap}
+.logo{height:56px;width:56px;border-radius:14px;vertical-align:middle}
+.brand{display:flex;align-items:center;gap:10px;font-size:1.5rem;font-weight:bold}
+.hdr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 #app{padding:8px 12px 40px;max-width:900px;margin:auto}
 button{font-family:inherit;border:0;cursor:pointer;border-radius:18px;background:#fff;color:var(--ink);box-shadow:0 4px 0 #0002;font-size:1rem;padding:10px 16px;transition:transform .08s}
 button:active{transform:translateY(3px);box-shadow:0 1px 0 #0002}
 .btn{background:var(--accent);color:#fff;font-size:1.2rem;padding:12px 20px}
-.stars{font-weight:bold;background:#fff;border-radius:999px;padding:8px 14px;box-shadow:0 2px 0 #0002}
-#parentBtn{font-size:1.2rem;padding:8px 12px}
+.pill{font-weight:bold;background:#fff;border-radius:999px;padding:8px 14px;box-shadow:0 2px 0 #0002}
 .hello{font-size:1.4rem;text-align:center;margin:8px 0}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
 .tile{background:#fff;border-radius:22px;min-height:120px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.4rem;box-shadow:0 4px 0 #0002;color:var(--ink);text-align:center}
@@ -61,15 +62,25 @@ button:active{transform:translateY(3px);box-shadow:0 1px 0 #0002}
 .stick{display:flex;flex-wrap:wrap;gap:8px;font-size:2rem;justify-content:center;min-height:50px;margin-top:8px}
 .panel{background:#fff;border-radius:24px;padding:18px;box-shadow:0 4px 0 #0002}
 .panel label{display:block;font-size:1.2rem;margin:12px 0}
-.panel input{transform:scale(1.5);margin-right:12px}
+.panel input[type=checkbox]{transform:scale(1.5);margin-right:12px}
 .done{text-align:center}
+.field{position:relative;height:60vh;min-height:320px;background:#e9f7ff;border-radius:28px;box-shadow:0 4px 0 #0002;overflow:hidden;margin-top:8px}
+.bug{position:absolute;width:80px;height:80px;font-size:3rem;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:pop .3s}
+.city{position:relative;height:60vh;min-height:340px;border-radius:28px;overflow:hidden;margin-top:8px;box-shadow:0 4px 0 #0002;background:linear-gradient(#bfe9ff,#ffe7b8 70%,#c9b3ff)}
+.city::before{content:"";position:absolute;left:0;right:0;bottom:0;height:24%;background:#8fd3a1}
+.bld{position:absolute;bottom:24%;background:#7a8bd6;border-radius:10px 10px 0 0;opacity:.85}
+.hero{position:absolute;font-size:3.2rem;transition:left .8s ease,top .8s ease;z-index:1}
+.sign{position:absolute;width:118px;min-height:84px;font-size:2.2rem;font-weight:bold;display:flex;align-items:center;justify-content:center;padding:6px;z-index:2;background:#fff;border:4px solid #2b2d42;border-radius:16px;box-shadow:0 4px 0 #0002}
+.sign .blob{width:56px;height:56px;box-shadow:none}
+.sign.hit{background:#fff3b0;transform:scale(1.1)}
 </style>
 </head>
 <body>
 <header>
-  <h1><img src="logo.png" alt="BubblyBoo" style="height:64px;width:64px;vertical-align:middle;border-radius:14px"> BubblyBoo</h1>
-  <div style="display:flex;gap:8px;align-items:center">
-    <span class="stars" id="starCount">⭐ 0</span>
+  <div class="brand"><img class="logo" src="logo.png" alt="BubblyBoo"> BubblyBoo</div>
+  <div class="hdr">
+    <button id="switchBtn" class="pill" data-act="profiles">👤</button>
+    <span class="pill" id="starCount">⭐ 0</span>
     <button id="parentBtn" title="Grown-ups">🔒</button>
   </div>
 </header>
@@ -78,18 +89,37 @@ button:active{transform:translateY(3px);box-shadow:0 1px 0 #0002}
 <script>
 const $ = s => document.querySelector(s);
 const app = $("#app");
-const KEY = "littleExplorers.v1";
-const DEFAULT = { stars: 0, stickers: [], unlocked: ["colors"] };
+const STORE = "bubblyboo.v2";
 const STICKERS = ["🦄","🚀","🐥","🐼","🦖","🌟","🚗","🎈","🍭","🧸","🐬","🦋","🌈","🐢","🦊","🐸","🐵","🦕","🍦","🎉","🏆","👏","🐯","🦉"];
 const PRAISE = ["Yes! Great job!","Wow, you got it!","Super! Well done!","You are so smart!"];
 const TRY = ["Almost! Try again.","Hmm, look again!","Try the other one."];
+const WEB_REQUIRES = ["colors","numbers","alphabet"];
 
-let state;
-try { state = Object.assign({}, DEFAULT, JSON.parse(localStorage.getItem(KEY)) || {}); }
-catch (e) { state = JSON.parse(JSON.stringify(DEFAULT)); }
-function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
-function unlocked(id){ return state.unlocked.includes(id); }
-function updateStars(){ $("#starCount").textContent = "⭐ " + state.stars; }
+/* ---------- Storage: one profile per child ---------- */
+let db;
+try { db = JSON.parse(localStorage.getItem(STORE)); } catch (e) { db = null; }
+if (!db){
+  db = { players: [], current: null };
+  try {
+    const old = JSON.parse(localStorage.getItem("littleExplorers.v1"));
+    if (old){
+      db.players.push({ id:"p1", name:"Player 1", stars:old.stars||0, stickers:old.stickers||[], unlocked:old.unlocked||["colors"], done:[] });
+      db.current = "p1";
+    }
+  } catch (e) {}
+}
+function save(){ try { localStorage.setItem(STORE, JSON.stringify(db)); } catch (e) {} }
+db.players.forEach(p => {
+  if (!p.unlocked.includes("web") && WEB_REQUIRES.every(id => p.done.includes(id))) p.unlocked.push("web");
+  if (!p.unlocked.includes("webby") && p.done.includes("web")) p.unlocked.push("webby");
+});
+function P(){ return db.players.find(p => p.id === db.current); }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]); }
+function updateHeader(){
+  const p = P();
+  $("#starCount").textContent = "⭐ " + (p ? p.stars : 0);
+  $("#switchBtn").textContent = "👤 " + (p ? p.name : "Who?");
+}
 
 /* ---------- Voice ---------- */
 let voice = null;
@@ -114,8 +144,7 @@ function rand(n){ return Math.floor(Math.random() * n); }
 function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = rand(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 function pick(arr){ return arr[rand(arr.length)]; }
 function mk(name, show, o = {}){
-  return Object.assign({ name, show, label: show, text: name,
-    say: `This is ${name}!`, ask: `Tap the ${name}.` }, o);
+  return Object.assign({ name, show, label: show, text: name, say: `This is ${name}!`, ask: `Tap the ${name}.` }, o);
 }
 const ones = ["","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
 const tens = ["","","twenty","thirty","forty","fifty"];
@@ -148,7 +177,6 @@ const PATTERNS = [
   ["apple","🍎🍌🍎🍌","🍎","Apple, banana, apple, banana. What comes next? Apple!"],
   ["triangle","🔺🟦🔺🟦","🔺","Triangle, square, triangle, square. What comes next? Triangle!"]
 ];
-
 const TOPICS = [
   { id:"colors", icon:"🎨", title:"Colors & Shapes", intro:"Let's find colors and shapes!",
     items: [
@@ -164,16 +192,14 @@ const TOPICS = [
     ]},
   { id:"numbers", icon:"🔢", title:"Numbers 1 to 20", intro:"Let's count to twenty!",
     items: Array.from({length:20}, (_, i) => i + 1).map(n => mk(numWord(n), dots(n), {
-      label: String(n), text: numWord(n),
-      say: `${numWord(n)}!`,
+      label: String(n), text: numWord(n), say: `${numWord(n)}!`,
       ask: "Count the stars. Which number is it?" }))
   },
   { id:"alphabet", icon:"🔤", title:"Alphabet & Sounds", intro:"Let's learn letter sounds!",
     items: ALPHA.map(([L, w, pic, s, tip]) => mk(L, `<span class="letter">${L}</span>`, {
       label: pic, text: `${L} is for ${w}`,
       say: `${L} says ${s}, as in ${w}!`,
-      slow: `${s}... ${s}... ${w}`,
-      tip, ask: `Which picture starts with ${L}?` }))
+      slow: `${s}... ${s}... ${w}`, tip, ask: `Which picture starts with ${L}?` }))
   },
   { id:"animals", icon:"🐶", title:"Animals", intro:"Let's meet some animals!",
     items: [["dog","🐶"],["cat","🐱"],["cow","🐮"],["pig","🐷"],["horse","🐴"],["chicken","🐔"],
@@ -207,22 +233,44 @@ const TOPICS = [
       label: ans, text: "What comes next?", say: spoken, ask: "What comes next?" })) }
 ];
 function findTopic(id){ return TOPICS.find(t => t.id === id); }
+function webUnlocked(){ const p = P(); return WEB_REQUIRES.every(id => p.done.includes(id)); }
 
 /* ---------- Screens ---------- */
 let curTopic = null, curItem = null, curTab = "home";
 let qRound = 0, qScore = 0, qTarget = null, qOpts = [], busy = false;
+let webTimers = [], webLeft = 0, webCaught = 0;
+
+function profiles(){
+  curTab = "profiles"; clearWeb();
+  app.innerHTML = `
+    <section class="panel">
+      <h2 style="text-align:center">Who is playing?</h2>
+      <div class="grid">
+        ${db.players.map(p => `<button class="tile" data-act="pick" data-id="${p.id}"><div>🧒</div><small>${esc(p.name)}</small></button>`).join("")}
+        <button class="tile" data-act="add"><div>➕</div><small>Add player</small></button>
+      </div>
+    </section>`;
+}
 
 function home(){
-  curTab = "home";
+  curTab = "home"; clearWeb();
+  const p = P();
+  const webOpen = p.unlocked.includes("web");
   app.innerHTML = `
-    <p class="hello">Pick a topic!</p>
-    <div class="grid">${TOPICS.map(t => {
-      const u = unlocked(t.id);
-      return `<button class="tile ${u ? "" : "locked"}" data-act="topic" data-id="${t.id}">
-        <div>${u ? t.icon : "🔒"}</div><small>${t.title}</small></button>`;
-    }).join("")}</div>
+    <p class="hello">Hi ${esc(p.name)}! Pick a topic.</p>
+    <div class="grid">
+      ${TOPICS.map(t => {
+        const u = p.unlocked.includes(t.id), d = p.done.includes(t.id);
+        return `<button class="tile ${u ? "" : "locked"}" data-act="topic" data-id="${t.id}">
+          <div>${u ? t.icon : "🔒"}</div><small>${d ? "✅ " : ""}${t.title}</small></button>`;
+      }).join("")}
+      <button class="tile ${webOpen ? "" : "locked"}" data-act="web">
+        <div>${webOpen ? "🕸️" : "🔒"}</div><small>${p.done.includes("web") ? "✅ " : ""}Bonus: Web Hero</small></button>
+      <button class="tile ${p.unlocked.includes("webby") ? "" : "locked"}" data-act="webby">
+        <div>${p.unlocked.includes("webby") ? "🕷️" : "🔒"}</div><small>${p.done.includes("webby") ? "✅ " : ""}Stage 2: Webby</small></button>
+    </div>
     <h3 style="text-align:center;margin-top:24px">My stickers</h3>
-    <div class="stick">${state.stickers.map(s => `<span>${s}</span>`).join("") || "<i>Play to earn stickers!</i>"}</div>`;
+    <div class="stick">${p.stickers.map(s => `<span>${s}</span>`).join("") || "<i>Play to earn stickers!</i>"}</div>`;
 }
 
 function openTopic(id, tab = "learn", fromHome = false){
@@ -261,19 +309,12 @@ function showLesson(i){
   say(it.say);
 }
 
-/* ---------- Play ---------- */
+/* ---------- Play quiz ---------- */
 function startPlay(){ qRound = 0; qScore = 0; playRound(); }
 
 function playRound(){
   if (curTab !== "play") return;
-  if (qRound >= 5){
-    const msg = `Great job! You got ${qScore} out of 5!`;
-    $("#pane").innerHTML = `<div class="done"><div class="big">🏆</div><p class="caption">${msg}</p>
-      <div class="row"><button class="btn" data-act="play">🎮 Play again</button>
-      <button data-act="tab" data-tab="learn">📖 Learn</button></div></div>`;
-    say(msg);
-    return;
-  }
+  if (qRound >= 5){ finishQuiz(); return; }
   const items = curTopic.items;
   qTarget = pick(items);
   const others = shuffle(items.filter(i => i !== qTarget && i.label !== qTarget.label)).slice(0, 2);
@@ -288,19 +329,40 @@ function playRound(){
   say(qTarget.ask);
 }
 
+function finishQuiz(){
+  const p = P();
+  let msg = `Great job! You got ${qScore} out of 5!`;
+  let extra = "";
+  if (qScore >= 3 && !p.done.includes(curTopic.id)){
+    p.done.push(curTopic.id);
+    msg += " Stage complete!";
+    if (webUnlocked() && !p.unlocked.includes("web")) p.unlocked.push("web");
+    if (webUnlocked() && !p.done.includes("web")){
+      extra = `<p class="caption">🕸️ You unlocked a new game: Web Hero!</p>
+               <div class="row"><button class="btn" data-act="web">🕸️ Play Web Hero</button></div>`;
+    }
+    save();
+  }
+  $("#pane").innerHTML = `<div class="done"><div class="big">🏆</div><p class="caption">${msg}</p>${extra}
+    <div class="row"><button class="btn" data-act="play">🎮 Play again</button>
+    <button data-act="tab" data-tab="learn">📖 Learn</button></div></div>`;
+  say(msg + (extra ? " You unlocked a new game, Web Hero!" : ""));
+}
+
 function answer(k){
   if (busy) return;
   const o = qOpts[k];
   if (o === qTarget){
     busy = true;
     qScore++;
-    state.stars++;
+    const p = P();
+    p.stars++;
     let extra = "";
-    if (state.stars % 5 === 0){
-      const s = STICKERS.find(x => !state.stickers.includes(x));
-      if (s){ state.stickers.push(s); extra = `<div class="sticker">New sticker: ${s}</div>`; }
+    if (p.stars % 5 === 0){
+      const s = STICKERS.find(x => !p.stickers.includes(x));
+      if (s){ p.stickers.push(s); extra = `<div class="sticker">New sticker: ${s}</div>`; }
     }
-    save(); updateStars();
+    save(); updateHeader();
     $("#fb").innerHTML = `<div class="ok">🎉 Yes! ${qTarget.name}!</div>${extra}`;
     say(pick(PRAISE) + " " + qTarget.name);
     qRound++;
@@ -313,16 +375,168 @@ function answer(k){
   }
 }
 
+/* ---------- Bonus: Web Hero (catch the bugs) ---------- */
+function openWeb(){
+  if (!P().unlocked.includes("web")){ say("Ask a grown-up to open this game."); return; }
+  curTab = "web";
+  app.innerHTML = `
+    <div class="bar"><button data-act="home">⬅ Home</button><h2>🕸️ Web Hero</h2></div>
+    <div class="round">Tap the bugs before they fly away!</div>
+    <div class="field" id="field"></div>
+    <div class="round" id="score">Bugs caught: 0 / 10</div>`;
+  say("Web Hero! Tap the bugs before they fly away!");
+  clearWeb();
+  webLeft = 10; webCaught = 0;
+  nextBug();
+}
+
+function nextBug(){
+  if (curTab !== "web" || webLeft <= 0) return;
+  const f = $("#field");
+  if (!f) return;
+  webLeft--;
+  const b = document.createElement("button");
+  b.className = "bug";
+  b.dataset.act = "bug";
+  b.textContent = pick(["🐞","🪲","🦗","🪰"]);
+  b.style.left = (5 + rand(78)) + "%";
+  b.style.top = (5 + rand(72)) + "%";
+  f.appendChild(b);
+  webTimers.push(setTimeout(() => { b.remove(); checkWebEnd(); }, 2600));
+  webTimers.push(setTimeout(nextBug, 1500));
+}
+
+function catchBug(b){
+  if (!b || b.dataset.gone) return;
+  b.dataset.gone = "1";
+  webCaught++;
+  const p = P(); p.stars++; save(); updateHeader();
+  const sc = $("#score"); if (sc) sc.textContent = `Bugs caught: ${webCaught} / 10`;
+  b.textContent = "💥";
+  say(pick(["Got it!","Pow!","Nice web!"]));
+  setTimeout(() => { b.remove(); checkWebEnd(); }, 300);
+}
+
+function checkWebEnd(){
+  const f = $("#field");
+  if (webLeft <= 0 && f && f.children.length === 0) finishWeb();
+}
+
+function finishWeb(){
+  if (curTab !== "web") return;
+  const p = P();
+  let msg = `You caught ${webCaught} bugs! Great web hero!`;
+  if (!p.done.includes("web")){ p.done.push("web"); }
+  if (!p.unlocked.includes("webby")) p.unlocked.push("webby");
+  save();
+  app.querySelector("#field").remove();
+  $("#score").textContent = msg;
+  app.insertAdjacentHTML("beforeend", `<div class="done"><div class="big">🏆</div>
+    <div class="row"><button class="btn" data-act="web">🕸️ Play again</button>
+    <button data-act="home">🏠 Home</button></div></div>`);
+  say(msg);
+}
+
+function clearWeb(){ webTimers.forEach(clearTimeout); webTimers = []; webLeft = 0; clearTimeout(wTimer); }
+
+/* ---------- Stage 2: Webby's City Swing ---------- */
+const WEBBY_LEVELS = [
+  { name:"Colors & Shapes", pool:() => findTopic("colors").items,
+    face: it => it.show, prompt: it => `Tap the ${it.name}.` },
+  { name:"Numbers 1 to 10", pool:() => findTopic("numbers").items.slice(0, 10),
+    face: it => it.label, prompt: it => `Tap the number ${it.text}.` },
+  { name:"Letters A to J", pool:() => findTopic("alphabet").items.slice(0, 10),
+    face: it => it.show, prompt: it => `Find the letter ${it.name}.` }
+];
+const SLOTS = [{l:6,t:30},{l:56,t:20},{l:18,t:62},{l:62,t:58}];
+let wLevel = 0, wRound = 0, wTarget = null, wOpts = [], wBusy = false, wHeroPos = {l:4, t:4}, wTimer = null;
+
+function openWebby(){
+  if (!P().unlocked.includes("webby")){ say("Ask a grown-up to open this game."); return; }
+  curTab = "webby"; clearWeb();
+  wLevel = 0; wRound = 0; wHeroPos = {l:4, t:4};
+  app.innerHTML = `
+    <div class="bar"><button data-act="home">⬅ Home</button><h2>🕷️ Webby's City Swing</h2></div>
+    <div class="round" id="wlabel"></div>
+    <div class="city" id="city"></div>
+    <div class="round" id="wfb"></div>`;
+  say("Webby is ready! Tap the right sign to swing!");
+  webbyRound();
+}
+
+function webbyRound(){
+  if (curTab !== "webby") return;
+  if (wRound >= 5){
+    wLevel++; wRound = 0;
+    if (wLevel >= WEBBY_LEVELS.length) return webbyFinish();
+    say(`Level ${wLevel + 1}! ${WEBBY_LEVELS[wLevel].name}!`);
+  }
+  const lv = WEBBY_LEVELS[wLevel];
+  const pool = lv.pool();
+  wTarget = pick(pool);
+  const others = shuffle(pool.filter(i => i !== wTarget && i.label !== wTarget.label && i.name !== wTarget.name)).slice(0, 3);
+  wOpts = shuffle([wTarget, ...others]);
+  const slots = shuffle([...SLOTS]);
+  wBusy = false;
+  $("#wlabel").textContent = `Level ${wLevel + 1} of 3 · Swing ${wRound + 1} of 5 · ⭐ ${P().stars}`;
+  $("#wfb").innerHTML = "";
+  $("#city").innerHTML = `
+    <div class="bld" style="left:0;width:20%;height:50%"></div>
+    <div class="bld" style="left:22%;width:16%;height:66%"></div>
+    <div class="bld" style="right:0;width:22%;height:56%"></div>
+    <div class="hero" id="hero" style="left:${wHeroPos.l}%;top:${wHeroPos.t}%">🕷️</div>
+    ${wOpts.map((o, k) => `<button class="sign" data-act="sign" data-k="${k}" style="left:${slots[k].l}%;top:${slots[k].t}%">${lv.face(o)}</button>`).join("")}`;
+  say(lv.prompt(wTarget));
+}
+
+function signTap(el){
+  if (wBusy) return;
+  const o = wOpts[+el.dataset.k];
+  if (o === wTarget){
+    wBusy = true;
+    const p = P(); p.stars++; save(); updateHeader();
+    const pos = { l: parseFloat(el.style.left), t: Math.max(0, parseFloat(el.style.top) - 14) };
+    wHeroPos = pos;
+    const h = $("#hero");
+    if (h){ h.style.left = pos.l + "%"; h.style.top = pos.t + "%"; }
+    el.classList.add("hit");
+    $("#wfb").innerHTML = `<div class="ok">🎉 Yes! ${wTarget.name}!</div>`;
+    say(pick(PRAISE) + " " + wTarget.name);
+    wRound++;
+    wTimer = setTimeout(webbyRound, 1800);
+  } else {
+    say(pick(TRY));
+    el.classList.add("shake");
+    setTimeout(() => el.classList.remove("shake"), 500);
+  }
+}
+
+function webbyFinish(){
+  const p = P();
+  if (!p.done.includes("webby")){ p.done.push("webby"); save(); }
+  const msg = "Webby swung through the whole city! Stage 2 complete!";
+  $("#wlabel").textContent = "Stage 2 complete!";
+  $("#city").innerHTML = `<div class="done" style="font-size:6rem;padding-top:90px">🕷️🏆</div>`;
+  $("#wfb").innerHTML = `<p class="caption">${msg}</p>
+    <div class="row"><button class="btn" data-act="webby">🕷️ Play again</button>
+    <button data-act="home">🏠 Home</button></div>`;
+  say(msg);
+}
+
 /* ---------- Parent area ---------- */
 function parent(){
-  curTab = "parent";
+  curTab = "parent"; clearWeb();
+  const p = P();
   app.innerHTML = `
     <section class="panel">
-      <h2>Grown-up settings</h2>
-      <p>Open topics for your son one at a time.</p>
-      ${TOPICS.map(t => `<label><input type="checkbox" data-t="${t.id}" ${unlocked(t.id) ? "checked" : ""}> ${t.icon} ${t.title}</label>`).join("")}
+      <h2>Grown-up settings for ${esc(p.name)}</h2>
+      <p>Open topics one at a time. Games open automatically when earned, and you can lock or unlock any of them here.</p>
+      ${TOPICS.map(t => `<label><input type="checkbox" data-t="${t.id}" ${p.unlocked.includes(t.id) ? "checked" : ""}> ${t.icon} ${t.title}</label>`).join("")}
+      <label><input type="checkbox" data-t="web" ${p.unlocked.includes("web") ? "checked" : ""}> 🕸️ Bonus: Web Hero</label>
+      <label><input type="checkbox" data-t="webby" ${p.unlocked.includes("webby") ? "checked" : ""}> 🕷️ Stage 2: Webby</label>
       <div class="row" style="margin-top:18px">
-        <button data-act="reset">🗑️ Reset progress</button>
+        <button data-act="reset">🗑️ Reset this player</button>
+        <button data-act="addp">➕ Add player</button>
         <button class="btn" data-act="done">Done</button>
       </div>
     </section>`;
@@ -334,11 +548,23 @@ app.addEventListener("click", e => {
   if (!el) return;
   const a = el.dataset.act;
   if (a === "home") return home();
+  if (a === "profiles") return profiles();
+  if (a === "pick"){ db.current = el.dataset.id; save(); updateHeader(); return home(); }
+  if (a === "add" || a === "addp"){
+    const name = (prompt("Child's first name:") || "").trim();
+    if (!name) return;
+    const id = "p" + Date.now().toString(36);
+    db.players.push({ id, name, stars:0, stickers:[], unlocked:["colors"], done:[] });
+    db.current = id; save(); updateHeader();
+    return a === "add" ? home() : parent();
+  }
   if (a === "topic"){
     const t = findTopic(el.dataset.id);
-    if (!unlocked(t.id)){ say("Ask a grown-up to open this one."); return; }
+    if (!P().unlocked.includes(t.id)){ say("Ask a grown-up to open this one."); return; }
     return openTopic(t.id, "learn", true);
   }
+  if (a === "web") return openWeb();
+  if (a === "bug") return catchBug(el);
   if (a === "tab"){
     if (el.dataset.tab === "learn") return openTopic(curTopic.id, "learn");
     return openTopic(curTopic.id, "play");
@@ -350,32 +576,36 @@ app.addEventListener("click", e => {
   if (a === "opt") return answer(+el.dataset.k);
   if (a === "play") return openTopic(curTopic.id, "play");
   if (a === "reset"){
-    if (confirm("Erase all stars, stickers and unlocked topics?")){
-      state = JSON.parse(JSON.stringify(DEFAULT));
-      save(); updateStars(); parent();
+    if (confirm("Erase this player's stars, stickers and finished stages?")){
+      const p = P();
+      Object.assign(p, { stars:0, stickers:[], unlocked:["colors"], done:[] });
+      save(); updateHeader(); parent();
     }
     return;
   }
+  if (a === "webby") return openWebby();
+  if (a === "sign") return signTap(el);
   if (a === "done") return home();
 });
 
 app.addEventListener("change", e => {
   const id = e.target.dataset.t;
   if (!id) return;
-  if (e.target.checked){ if (!unlocked(id)) state.unlocked.push(id); }
-  else state.unlocked = state.unlocked.filter(x => x !== id);
+  const p = P();
+  if (e.target.checked){ if (!p.unlocked.includes(id)) p.unlocked.push(id); }
+  else p.unlocked = p.unlocked.filter(x => x !== id);
   save();
 });
 
 $("#parentBtn").addEventListener("click", () => {
   const a = prompt("Grown-ups only: what is 7 + 5?");
   if (a === null) return;
-  if (a.trim() === "12") parent();
+  if (a.trim() === "12"){ if (P()) parent(); else profiles(); }
   else alert("Not quite. Try again!");
 });
 
-updateStars();
-home();
+updateHeader();
+if (P()) home(); else profiles();
 </script>
 </body>
 </html>
