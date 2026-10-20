@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Little Explorers</title>
+<style>
+:root{--bg:#fff7e6;--ink:#2b2d42;--accent:#ff7b54;--accent2:#4ea8de;--ok:#2a9d6f;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0;min-height:100%;font-family:"Comic Sans MS","Trebuchet MS",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:8px;flex-wrap:wrap}
+h1{font-size:1.6rem;margin:0}
+#app{padding:8px 12px 40px;max-width:900px;margin:auto}
+button{font-family:inherit;border:0;cursor:pointer;border-radius:18px;background:#fff;color:var(--ink);box-shadow:0 4px 0 #0002;font-size:1rem;padding:10px 16px;transition:transform .08s}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 #0002}
+.btn{background:var(--accent);color:#fff;font-size:1.2rem;padding:12px 20px}
+.stars{font-weight:bold;background:#fff;border-radius:999px;padding:8px 14px;box-shadow:0 2px 0 #0002}
+#parentBtn{font-size:1.2rem;padding:8px 12px}
+.hello{font-size:1.4rem;text-align:center;margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+.tile{background:#fff;border-radius:22px;min-height:120px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.4rem;box-shadow:0 4px 0 #0002;color:var(--ink);text-align:center}
+.tile small{font-size:.85rem;margin-top:6px;font-family:inherit}
+.tile .word{font-size:1.1rem;font-weight:bold}
+.tile .dots{font-size:9px;line-height:1.1}
+.tile .letter{font-size:3rem;font-weight:900}
+.tile .blob{width:60px;height:60px}
+.locked{opacity:.5}
+.blob{display:inline-block;width:110px;height:110px;border-radius:50%;box-shadow:inset -8px -8px 0 #0002}
+.big{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;font-size:4.5rem;background:#fff;border-radius:28px;padding:16px;box-shadow:0 4px 0 #0002;margin:12px 0;text-align:center}
+.big .dots{font-size:clamp(14px,4vw,28px);line-height:1.3}
+.big .word{font-size:clamp(2.5rem,10vw,5rem);font-weight:bold}
+.big .letter{font-size:clamp(7rem,30vw,11rem);font-weight:900;line-height:1}
+.big .pat{font-size:clamp(2rem,7vw,3.5rem)}
+.big .blob{width:clamp(90px,25vw,160px);height:clamp(90px,25vw,160px)}
+.label{font-size:clamp(3rem,10vw,5rem);font-weight:bold}
+.caption{font-size:1.6rem;font-weight:bold;margin:8px;text-align:center}
+.tip{background:#fff3b0;border-radius:16px;padding:10px 14px;margin:10px 0;font-size:1.1rem;text-align:center}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:10px 0}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.bar h2{margin:0;font-size:1.3rem}
+.tabs{display:flex;gap:10px;justify-content:center;margin:10px 0}
+.tab{padding:10px 18px;font-size:1.1rem}
+.tab.on{background:var(--accent2);color:#fff}
+.ask{font-size:1.2rem;background:var(--accent2);color:#fff;padding:12px 18px;margin:8px auto;display:block}
+.round{text-align:center;font-weight:bold}
+.opts{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:14px 0}
+.opt{min-width:130px;min-height:130px;font-size:clamp(2.6rem,9vw,4rem);display:flex;align-items:center;justify-content:center;padding:10px}
+.opt .word{font-size:1.4rem;font-weight:bold}
+.opt .blob{width:80px;height:80px}
+.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.ok{font-size:2rem;font-weight:bold;color:var(--ok);text-align:center;animation:pop .4s}
+@keyframes pop{0%{transform:scale(.6)}100%{transform:scale(1)}}
+.sticker{font-size:1.2rem;margin-top:6px;text-align:center}
+.stick{display:flex;flex-wrap:wrap;gap:8px;font-size:2rem;justify-content:center;min-height:50px;margin-top:8px}
+.panel{background:#fff;border-radius:24px;padding:18px;box-shadow:0 4px 0 #0002}
+.panel label{display:block;font-size:1.2rem;margin:12px 0}
+.panel input{transform:scale(1.5);margin-right:12px}
+.done{text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌟 Little Explorers</h1>
+  <div style="display:flex;gap:8px;align-items:center">
+    <span class="stars" id="starCount">⭐ 0</span>
+    <button id="parentBtn" title="Grown-ups">🔒</button>
+  </div>
+</header>
+<main id="app"></main>
+
+<script>
+const $ = s => document.querySelector(s);
+const app = $("#app");
+const KEY = "littleExplorers.v1";
+const DEFAULT = { stars: 0, stickers: [], unlocked: ["colors"] };
+const STICKERS = ["🦄","🚀","🐥","🐼","🦖","🌟","🚗","🎈","🍭","🧸","🐬","🦋","🌈","🐢","🦊","🐸","🐵","🦕","🍦","🎉","🏆","👏","🐯","🦉"];
+const PRAISE = ["Yes! Great job!","Wow, you got it!","Super! Well done!","You are so smart!"];
+const TRY = ["Almost! Try again.","Hmm, look again!","Try the other one."];
+
+let state;
+try { state = Object.assign({}, DEFAULT, JSON.parse(localStorage.getItem(KEY)) || {}); }
+catch (e) { state = JSON.parse(JSON.stringify(DEFAULT)); }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+function unlocked(id){ return state.unlocked.includes(id); }
+function updateStars(){ $("#starCount").textContent = "⭐ " + state.stars; }
+
+/* ---------- Voice ---------- */
+let voice = null;
+function pickVoice(){
+  if (!("speechSynthesis" in window)) return;
+  const v = speechSynthesis.getVoices();
+  voice = v.find(x => /en[-_]US/i.test(x.lang) && /female|samantha|google|zira/i.test(x.name))
+       || v.find(x => x.lang && x.lang.startsWith("en")) || null;
+}
+if ("speechSynthesis" in window){ speechSynthesis.onvoiceschanged = pickVoice; pickVoice(); }
+function say(text, rate = 0.9){
+  if (!("speechSynthesis" in window) || !text) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-US"; u.rate = rate; u.pitch = 1.1;
+  if (voice) u.voice = voice;
+  speechSynthesis.speak(u);
+}
+
+/* ---------- Helpers ---------- */
+function rand(n){ return Math.floor(Math.random() * n); }
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = rand(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function pick(arr){ return arr[rand(arr.length)]; }
+function mk(name, show, o = {}){
+  return Object.assign({ name, show, label: show, text: name,
+    say: `This is ${name}. ${name}.`, ask: `Tap the ${name}.` }, o);
+}
+const ones = ["","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+const tens = ["","","twenty","thirty","forty","fifty"];
+function numWord(n){ if (n < 20) return ones[n]; const o = n % 10; return tens[Math.floor(n / 10)] + (o ? "-" + ones[o] : ""); }
+function dots(n){ return '<div class="dots">' + "⭐".repeat(n) + "</div>"; }
+
+/* ---------- Topics ---------- */
+const ALPHA = [
+  ["A","apple","🍎","ahh"],["B","ball","⚽","buh","Put your lips together, then pop."],
+  ["C","cat","🐱","kuh"],["D","dog","🐶","duh"],["E","egg","🥚","eh"],
+  ["F","fish","🐟","fff","Bite your lip and blow."],["G","goat","🐐","guh"],
+  ["H","hat","🎩","huh","Breathe out like a little fog."],["I","igloo","🏠","ih"],
+  ["J","juice","🧃","juh"],["K","kite","🪁","kuh"],
+  ["L","lion","🦁","lll","Touch your tongue to the roof of your mouth."],
+  ["M","moon","🌙","mmm","Hum with your lips closed."],["N","nest","🪺","nnn"],
+  ["O","octopus","🐙","ohh"],["P","pig","🐷","puh","Pop it out with a little puff of air."],
+  ["Q","queen","👑","kwuh"],
+  ["R","rabbit","🐰","rrr","Curl your tongue back and buzz. Don't touch the roof of your mouth."],
+  ["S","sun","☀️","sss","Hiss like a snake."],
+  ["T","tree","🌳","tuh","Tap your tongue behind your teeth."],
+  ["U","umbrella","☂️","uh"],["V","van","🚐","vvv","Bite your lip and buzz."],
+  ["W","watch","⌚","wuh","Round your lips like the letter O."],["X","box","📦","ks"],
+  ["Y","yellow","🟨","yuh"],["Z","zebra","🦓","zzz","Buzz like a bee."]
+];
+const PATTERNS = [
+  ["red","🔴🔵🔴🔵","🔴","Red, blue, red, blue. What comes next? Red!"],
+  ["yellow","🟡🟢🟡🟢","🟡","Yellow, green, yellow, green. What comes next? Yellow!"],
+  ["dog","🐶🐱🐶🐱","🐶","Dog, cat, dog, cat. What comes next? Dog!"],
+  ["star","⭐🌙⭐🌙","⭐","Star, moon, star, moon. What comes next? Star!"],
+  ["apple","🍎🍌🍎🍌","🍎","Apple, banana, apple, banana. What comes next? Apple!"],
+  ["triangle","🔺🟦🔺🟦","🔺","Triangle, square, triangle, square. What comes next? Triangle!"]
+];
+
+const TOPICS = [
+  { id:"colors", icon:"🎨", title:"Colors & Shapes", intro:"Let's find colors and shapes!",
+    items: [
+      ...[["red","#e63946"],["blue","#1d6fd6"],["green","#2a9d4a"],["yellow","#ffd60a"],["orange","#ff8c1a"],
+          ["purple","#8e44ad"],["pink","#ff6fb5"],["black","#222"],["brown","#8b5a2b"]]
+        .map(([n,c]) => mk(n, `<span class="blob" style="background:${c}"></span>`,
+          { say: `Yeah, this is ${n}. ${n}!`, ask: `Tap the ${n} one.` })),
+      mk("circle","⚪",{ say:"Yeah, this is a circle. Circle!", ask:"Tap the circle." }),
+      mk("square","🟦",{ say:"Yeah, this is a square. Square!", ask:"Tap the square." }),
+      mk("triangle","🔺",{ say:"Yeah, this is a triangle. Triangle!", ask:"Tap the triangle." }),
+      mk("star","⭐",{ say:"Yeah, this is a star. Star!", ask:"Tap the star." }),
+      mk("heart","❤️",{ say:"Yeah, this is a heart. Heart!", ask:"Tap the heart." })
+    ]},
+  { id:"numbers", icon:"🔢", title:"Numbers 1 to 50", intro:"Let's count to fifty!",
+    items: Array.from({length:50}, (_, i) => i + 1).map(n => mk(numWord(n), dots(n), {
+      label: String(n), text: numWord(n),
+      say: `${numWord(n)}. ${numWord(n)}.`,
+      ask: "Count the stars. Which number is it?" }))
+  },
+  { id:"alphabet", icon:"🔤", title:"Alphabet & Sounds", intro:"Let's learn letter sounds!",
+    items: ALPHA.map(([L, w, pic, s, tip]) => mk(L, `<span class="letter">${L}</span>`, {
+      label: pic, text: `${L} is for ${w}`,
+      say: `${L} says ${s}, as in ${w}. ${w}!`,
+      slow: `${s}... ${s}... ${w}`,
+      tip, ask: `Which picture starts with ${L}?` }))
+  },
+  { id:"animals", icon:"🐶", title:"Animals", intro:"Let's meet some animals!",
+    items: [["dog","🐶"],["cat","🐱"],["cow","🐮"],["pig","🐷"],["horse","🐴"],["chicken","🐔"],
+            ["sheep","🐑"],["frog","🐸"],["lion","🦁"],["elephant","🐘"],["duck","🦆"]]
+      .map(([n,e]) => mk(n, e, { say: `This is a ${n}. ${n}!`, ask: `Tap the ${n}.` })) },
+  { id:"fruits", icon:"🍎", title:"Fruits & Vegetables", intro:"Let's find yummy fruits and vegetables!",
+    items: [["apple","🍎"],["banana","🍌"],["grapes","🍇"],["orange","🍊"],["watermelon","🍉"],
+            ["strawberry","🍓"],["carrot","🥕"],["broccoli","🥦"],["tomato","🍅"],["potato","🥔"],["corn","🌽"]]
+      .map(([n,e]) => mk(n, e, { say: `This is ${n}. ${n}!`, ask: `Tap the ${n}.` })) },
+  { id:"body", icon:"🖐️", title:"Body Parts", intro:"Let's find our body parts!",
+    items: [["nose","👃"],["eyes","👀"],["ears","👂"],["mouth","👄"],["hand","✋"],["foot","🦶"],["teeth","🦷"]]
+      .map(([n,e]) => mk(n, e, { say: `Point to your ${n}. ${n}!`, ask: `Find your ${n}.` })) },
+  { id:"days", icon:"📅", title:"Days, Weather & Seasons", intro:"Let's learn days, weather, and seasons!",
+    items: [
+      ...["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+        .map(d => mk(d, `<span class="word">${d}</span>`, { say: `${d}.`, ask: `Find ${d}.` })),
+      mk("sunny","☀️",{ say:"Sunny. The sun is shining!", ask:"Find the sunny one." }),
+      mk("rainy","🌧️",{ say:"Rainy. Take an umbrella!", ask:"Find the rainy one." }),
+      mk("cloudy","☁️",{ say:"Cloudy. Lots of clouds.", ask:"Find the cloudy one." }),
+      mk("snowy","❄️",{ say:"Snowy. Snow is cold and white!", ask:"Find the snowy one." }),
+      mk("spring","🌸",{ say:"Spring. Flowers come out!", ask:"Find spring." }),
+      mk("summer","🏖️",{ say:"Summer. Time for the beach!", ask:"Find summer." }),
+      mk("autumn","🍂",{ say:"Autumn. Leaves fall down!", ask:"Find autumn." }),
+      mk("winter","⛄",{ say:"Winter. Brrr, it is cold!", ask:"Find winter." })
+    ]},
+  { id:"words", icon:"📖", title:"Simple Words", intro:"Let's read some first words!",
+    items: ["the","and","I","see","a","is","it","to","you","my","go","big","up","look","can"]
+      .map(w => mk(w, `<span class="word">${w}</span>`, { say: `${w}. ${w}!`, ask: `Find the word ${w}.` })) },
+  { id:"patterns", icon:"🧩", title:"Patterns", intro:"Let's find what comes next!",
+    items: PATTERNS.map(([n, seq, ans, spoken]) => mk(n, `<span class="pat">${seq} ❓</span>`, {
+      label: ans, text: "What comes next?", say: spoken, ask: "What comes next?" })) }
+];
+function findTopic(id){ return TOPICS.find(t => t.id === id); }
+
+/* ---------- Screens ---------- */
+let curTopic = null, curItem = null, curTab = "home";
+let qRound = 0, qScore = 0, qTarget = null, qOpts = [], busy = false;
+
+function home(){
+  curTab = "home";
+  app.innerHTML = `
+    <p class="hello">Pick a topic!</p>
+    <div class="grid">${TOPICS.map(t => {
+      const u = unlocked(t.id);
+      return `<button class="tile ${u ? "" : "locked"}" data-act="topic" data-id="${t.id}">
+        <div>${u ? t.icon : "🔒"}</div><small>${t.title}</small></button>`;
+    }).join("")}</div>
+    <h3 style="text-align:center;margin-top:24px">My stickers</h3>
+    <div class="stick">${state.stickers.map(s => `<span>${s}</span>`).join("") || "<i>Play to earn stickers!</i>"}</div>`;
+}
+
+function openTopic(id, tab = "learn", fromHome = false){
+  curTopic = findTopic(id);
+  curTab = tab;
+  app.innerHTML = `
+    <div class="bar"><button data-act="home">⬅ Home</button><h2>${curTopic.icon} ${curTopic.title}</h2></div>
+    <div class="tabs">
+      <button class="tab ${tab === "learn" ? "on" : ""}" data-act="tab" data-tab="learn">📖 Learn</button>
+      <button class="tab ${tab === "play" ? "on" : ""}" data-act="tab" data-tab="play">🎮 Play</button>
+    </div>
+    <div id="pane"></div>`;
+  if (fromHome) say(curTopic.intro);
+  if (tab === "play") startPlay(); else learnGrid();
+}
+
+function learnGrid(){
+  curTab = "learn";
+  $("#pane").innerHTML = `<div class="grid">${curTopic.items.map((it, i) =>
+    `<button class="tile" data-act="item" data-i="${i}">${it.show}<small>${it.text}</small></button>`).join("")}</div>`;
+}
+
+function showLesson(i){
+  curItem = curTopic.items[i];
+  const it = curItem;
+  $("#pane").innerHTML = `
+    <div class="big">${it.show}</div>
+    ${it.label !== it.show ? `<div class="label">${it.label}</div>` : ""}
+    <div class="caption">${it.text}</div>
+    ${it.tip ? `<div class="tip">💡 ${it.tip}</div>` : ""}
+    <div class="row">
+      <button class="btn" data-act="hear">🔊 Hear again</button>
+      ${it.slow ? `<button data-act="slow">🐢 Say it slowly</button>` : ""}
+    </div>
+    <div class="row"><button data-act="tab" data-tab="learn">⬅ All pictures</button></div>`;
+  say(it.say);
+}
+
+/* ---------- Play ---------- */
+function startPlay(){ qRound = 0; qScore = 0; playRound(); }
+
+function playRound(){
+  if (curTab !== "play") return;
+  if (qRound >= 5){
+    const msg = `Great job! You got ${qScore} out of 5!`;
+    $("#pane").innerHTML = `<div class="done"><div class="big">🏆</div><p class="caption">${msg}</p>
+      <div class="row"><button class="btn" data-act="play">🎮 Play again</button>
+      <button data-act="tab" data-tab="learn">📖 Learn</button></div></div>`;
+    say(msg);
+    return;
+  }
+  const items = curTopic.items;
+  qTarget = pick(items);
+  const others = shuffle(items.filter(i => i !== qTarget && i.label !== qTarget.label)).slice(0, 2);
+  qOpts = shuffle([qTarget, ...others]);
+  busy = false;
+  $("#pane").innerHTML = `
+    <div class="round">Round ${qRound + 1} of 5 · ⭐ ${qScore}</div>
+    <div class="big">${qTarget.show}</div>
+    <button class="ask" data-act="ask">🔊 ${qTarget.ask}</button>
+    <div class="opts">${qOpts.map((o, k) => `<button class="opt" data-act="opt" data-k="${k}">${o.label}</button>`).join("")}</div>
+    <div id="fb"></div>`;
+  say(qTarget.ask);
+}
+
+function answer(k){
+  if (busy) return;
+  const o = qOpts[k];
+  if (o === qTarget){
+    busy = true;
+    qScore++;
+    state.stars++;
+    let extra = "";
+    if (state.stars % 5 === 0){
+      const s = STICKERS.find(x => !state.stickers.includes(x));
+      if (s){ state.stickers.push(s); extra = `<div class="sticker">New sticker: ${s}</div>`; }
+    }
+    save(); updateStars();
+    $("#fb").innerHTML = `<div class="ok">🎉 Yes! ${qTarget.name}!</div>${extra}`;
+    say(pick(PRAISE) + " " + qTarget.name);
+    qRound++;
+    setTimeout(playRound, 1800);
+  } else {
+    say(pick(TRY));
+    const b = document.querySelectorAll(".opt")[k];
+    b.classList.add("shake");
+    setTimeout(() => b.classList.remove("shake"), 500);
+  }
+}
+
+/* ---------- Parent area ---------- */
+function parent(){
+  curTab = "parent";
+  app.innerHTML = `
+    <section class="panel">
+      <h2>Grown-up settings</h2>
+      <p>Open topics for your son one at a time.</p>
+      ${TOPICS.map(t => `<label><input type="checkbox" data-t="${t.id}" ${unlocked(t.id) ? "checked" : ""}> ${t.icon} ${t.title}</label>`).join("")}
+      <div class="row" style="margin-top:18px">
+        <button data-act="reset">🗑️ Reset progress</button>
+        <button class="btn" data-act="done">Done</button>
+      </div>
+    </section>`;
+}
+
+/* ---------- Events ---------- */
+app.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]");
+  if (!el) return;
+  const a = el.dataset.act;
+  if (a === "home") return home();
+  if (a === "topic"){
+    const t = findTopic(el.dataset.id);
+    if (!unlocked(t.id)){ say("Ask a grown-up to open this one."); return; }
+    return openTopic(t.id, "learn", true);
+  }
+  if (a === "tab"){
+    if (el.dataset.tab === "learn") return openTopic(curTopic.id, "learn");
+    return openTopic(curTopic.id, "play");
+  }
+  if (a === "item") return showLesson(+el.dataset.i);
+  if (a === "hear") return say(curItem.say);
+  if (a === "slow") return say(curItem.slow, 0.45);
+  if (a === "ask") return say(qTarget.ask);
+  if (a === "opt") return answer(+el.dataset.k);
+  if (a === "play") return openTopic(curTopic.id, "play");
+  if (a === "reset"){
+    if (confirm("Erase all stars, stickers and unlocked topics?")){
+      state = JSON.parse(JSON.stringify(DEFAULT));
+      save(); updateStars(); parent();
+    }
+    return;
+  }
+  if (a === "done") return home();
+});
+
+app.addEventListener("change", e => {
+  const id = e.target.dataset.t;
+  if (!id) return;
+  if (e.target.checked){ if (!unlocked(id)) state.unlocked.push(id); }
+  else state.unlocked = state.unlocked.filter(x => x !== id);
+  save();
+});
+
+$("#parentBtn").addEventListener("click", () => {
+  const a = prompt("Grown-ups only: what is 7 + 5?");
+  if (a === null) return;
+  if (a.trim() === "12") parent();
+  else alert("Not quite. Try again!");
+});
+
+updateStars();
+home();
+</script>
+</body>
+</html>
