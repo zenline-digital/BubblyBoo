@@ -10,69 +10,54 @@
 <meta name="apple-mobile-web-app-title" content="BubblyBoo">
 <meta name="theme-color" content="#5ecbff">
 <style>
-:root{--bg:#fff7e6;--ink:#2b2d42;--accent:#ff7b54;--accent2:#4ea8de;--ok:#2a9d6f;}
+:root{--ink:#1d2140;--accent:#ff5d73;--accent2:#3aa0ff;--gold:#ffc300;--ok:#22a06b}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html,body{margin:0;min-height:100%;font-family:"Comic Sans MS","Trebuchet MS",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;gap:8px;flex-wrap:wrap}
-.logo{height:56px;width:56px;border-radius:14px;vertical-align:middle}
-.brand{display:flex;align-items:center;gap:10px;font-size:1.5rem;font-weight:bold}
+html,body{margin:0;min-height:100%;font-family:"Trebuchet MS",system-ui,sans-serif;color:var(--ink);background:linear-gradient(#8fdcff,#e8f9ff 60%,#fff6dc)}
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;gap:8px;flex-wrap:wrap;position:relative;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;font-size:1.6rem;font-weight:900}
+.logo{height:52px;width:52px;border-radius:14px;box-shadow:0 4px 10px #0003}
 .hdr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-#app{padding:8px 12px 40px;max-width:900px;margin:auto}
-button{font-family:inherit;border:0;cursor:pointer;border-radius:18px;background:#fff;color:var(--ink);box-shadow:0 4px 0 #0002;font-size:1rem;padding:10px 16px;transition:transform .08s}
-button:active{transform:translateY(3px);box-shadow:0 1px 0 #0002}
-.btn{background:var(--accent);color:#fff;font-size:1.2rem;padding:12px 20px}
-.pill{font-weight:bold;background:#fff;border-radius:999px;padding:8px 14px;box-shadow:0 2px 0 #0002}
-.hello{font-size:1.4rem;text-align:center;margin:8px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
-.tile{background:#fff;border-radius:22px;min-height:120px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.4rem;box-shadow:0 4px 0 #0002;color:var(--ink);text-align:center}
-.tile small{font-size:.85rem;margin-top:6px;font-family:inherit}
-.tile .word{font-size:1.1rem;font-weight:bold}
-.tile .dots{font-size:9px;line-height:1.1}
-.tile .letter{font-size:3rem;font-weight:900}
-.tile .blob{width:60px;height:60px}
-.locked{opacity:.5}
-.blob{display:inline-block;width:110px;height:110px;border-radius:50%;box-shadow:inset -8px -8px 0 #0002}
-.big{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;font-size:4.5rem;background:#fff;border-radius:28px;padding:16px;box-shadow:0 4px 0 #0002;margin:12px 0;text-align:center}
-.big .dots{font-size:clamp(14px,4vw,28px);line-height:1.3}
-.big .word{font-size:clamp(2.5rem,10vw,5rem);font-weight:bold}
-.big .letter{font-size:clamp(7rem,30vw,11rem);font-weight:900;line-height:1}
-.big .pat{font-size:clamp(2rem,7vw,3.5rem)}
-.big .blob{width:clamp(90px,25vw,160px);height:clamp(90px,25vw,160px)}
-.label{font-size:clamp(3rem,10vw,5rem);font-weight:bold}
-.caption{font-size:1.6rem;font-weight:bold;margin:8px;text-align:center}
-.tip{background:#fff3b0;border-radius:16px;padding:10px 14px;margin:10px 0;font-size:1.1rem;text-align:center}
-.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:10px 0}
-.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
-.bar h2{margin:0;font-size:1.3rem}
-.tabs{display:flex;gap:10px;justify-content:center;margin:10px 0}
-.tab{padding:10px 18px;font-size:1.1rem}
-.tab.on{background:var(--accent2);color:#fff}
-.ask{font-size:1.2rem;background:var(--accent2);color:#fff;padding:12px 18px;margin:8px auto;display:block}
-.round{text-align:center;font-weight:bold}
-.opts{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:14px 0}
-.opt{min-width:130px;min-height:130px;font-size:clamp(2.6rem,9vw,4rem);display:flex;align-items:center;justify-content:center;padding:10px}
-.opt .word{font-size:1.4rem;font-weight:bold}
-.opt .blob{width:80px;height:80px}
+.pill{font-weight:900;background:#fff;border-radius:999px;padding:8px 14px;box-shadow:0 3px 0 #0002;border:0;font-family:inherit;font-size:1rem;color:var(--ink);cursor:pointer}
+#app{padding:8px 14px 40px;max-width:980px;margin:auto}
+button{font-family:inherit;border:0;cursor:pointer;border-radius:16px;background:#fff;color:var(--ink);box-shadow:0 5px 0 #0002;font-size:1.05rem;padding:11px 18px;font-weight:700;transition:transform .08s}
+button:active{transform:translateY(4px);box-shadow:0 1px 0 #0002}
+.btn{background:var(--accent);color:#fff;font-size:1.25rem;padding:14px 24px;font-weight:900}
+.panel{background:#ffffffee;border-radius:26px;padding:20px;box-shadow:0 8px 0 #0001}
+.title{font-size:1.6rem;font-weight:900;text-align:center;margin:6px 0 12px}
+.caption{font-size:1.2rem;font-weight:800;margin:8px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.card{background:#fff;border-radius:22px;padding:14px 10px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 6px 0 #0002;font-size:2.6rem;color:var(--ink)}
+.card small{font-size:1.05rem;font-weight:800;margin-top:6px}
+.locked{filter:grayscale(.8);opacity:.6}
+.badge{font-size:.9rem;color:var(--ok);font-weight:900;margin-top:4px}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0}
+.stick{display:flex;flex-wrap:wrap;gap:8px;font-size:2rem;justify-content:center;margin-top:8px}
+.panel label{display:block;font-size:1.15rem;margin:12px 0;font-weight:700}
+.panel input[type=checkbox]{transform:scale(1.5);margin-right:12px}
+.blob{display:inline-block;width:70px;height:70px;border-radius:50%;box-shadow:inset -6px -6px 0 #0002}
+.word{font-weight:900}
+.dots{font-size:.6em;line-height:1.2}
+.letter{font-weight:900}
+.pat{font-size:.8em}
+/* game screen */
+#game{position:fixed;inset:0;display:none;background:#000;z-index:20;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+#hud{position:absolute;left:12px;top:12px;color:#fff;font-weight:900;font-size:1.25rem;text-shadow:0 2px 4px #0008;display:flex;gap:14px;align-items:center;flex-wrap:wrap;pointer-events:none}
+.bar2{width:170px;height:14px;background:#fff6;border-radius:8px;overflow:hidden}
+.bar2 div{height:100%;background:var(--gold)}
+#backBtn{position:absolute;right:12px;top:12px;z-index:30;padding:8px 14px;font-size:1rem}
+.overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#0009;padding:14px;z-index:25}
+.qcard{background:#fff;border-radius:28px;padding:22px;max-width:640px;width:100%;text-align:center;box-shadow:0 10px 0 #0004;animation:pop .35s}
+@keyframes pop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
+.qask{font-size:1.6rem;font-weight:900;margin-bottom:6px}
+.qshow{font-size:3rem;margin:8px 0;min-height:70px}
+.qopts{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:10px}
+.qb{min-width:120px;min-height:100px;font-size:2.2rem;font-weight:900;padding:10px;display:flex;align-items:center;justify-content:center;background:#fff;border:4px solid #d7e6ff;box-shadow:0 5px 0 #0002;color:var(--ink)}
+.qb .blob{width:60px;height:60px;box-shadow:none}
+.qb .word{font-size:1.1rem}
+.qfb{min-height:36px;font-size:1.3rem;font-weight:900;margin-top:10px;color:var(--ok)}
 .shake{animation:shake .4s}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-.ok{font-size:2rem;font-weight:bold;color:var(--ok);text-align:center;animation:pop .4s}
-@keyframes pop{0%{transform:scale(.6)}100%{transform:scale(1)}}
-.sticker{font-size:1.2rem;margin-top:6px;text-align:center}
-.stick{display:flex;flex-wrap:wrap;gap:8px;font-size:2rem;justify-content:center;min-height:50px;margin-top:8px}
-.panel{background:#fff;border-radius:24px;padding:18px;box-shadow:0 4px 0 #0002}
-.panel label{display:block;font-size:1.2rem;margin:12px 0}
-.panel input[type=checkbox]{transform:scale(1.5);margin-right:12px}
-.done{text-align:center}
-.field{position:relative;height:60vh;min-height:320px;background:#e9f7ff;border-radius:28px;box-shadow:0 4px 0 #0002;overflow:hidden;margin-top:8px}
-.bug{position:absolute;width:80px;height:80px;font-size:3rem;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:pop .3s}
-.city{position:relative;height:60vh;min-height:340px;border-radius:28px;overflow:hidden;margin-top:8px;box-shadow:0 4px 0 #0002;background:linear-gradient(#bfe9ff,#ffe7b8 70%,#c9b3ff)}
-.city::before{content:"";position:absolute;left:0;right:0;bottom:0;height:24%;background:#8fd3a1}
-.bld{position:absolute;bottom:24%;background:#7a8bd6;border-radius:10px 10px 0 0;opacity:.85}
-.hero{position:absolute;font-size:3.2rem;transition:left .8s ease,top .8s ease;z-index:1}
-.sign{position:absolute;width:118px;min-height:84px;font-size:2.2rem;font-weight:bold;display:flex;align-items:center;justify-content:center;padding:6px;z-index:2;background:#fff;border:4px solid #2b2d42;border-radius:16px;box-shadow:0 4px 0 #0002}
-.sign .blob{width:56px;height:56px;box-shadow:none}
-.sign.hit{background:#fff3b0;transform:scale(1.1)}
 </style>
 </head>
 <body>
@@ -81,39 +66,51 @@ button:active{transform:translateY(3px);box-shadow:0 1px 0 #0002}
   <div class="hdr">
     <button id="switchBtn" class="pill" data-act="profiles">👤</button>
     <span class="pill" id="starCount">⭐ 0</span>
-    <button id="parentBtn" title="Grown-ups">🔒</button>
+    <button id="parentBtn" class="pill" title="Grown-ups">🔒</button>
   </div>
 </header>
 <main id="app"></main>
 
+<div id="game">
+  <canvas id="cv"></canvas>
+  <div id="hud"></div>
+  <button id="backBtn" class="pill" data-act="quitGame">🏠 Home</button>
+  <div id="quiz" class="overlay">
+    <div class="qcard">
+      <div class="qask" id="qAsk"></div>
+      <div class="qshow" id="qShow"></div>
+      <div class="qopts" id="qOpts"></div>
+      <div class="qfb" id="qFb"></div>
+    </div>
+  </div>
+  <div id="result" class="overlay"><div class="qcard" id="resCard"></div></div>
+</div>
+
 <script>
 const $ = s => document.querySelector(s);
 const app = $("#app");
-const STORE = "bubblyboo.v2";
+const STORE = "bubblyboo.v3";
 const STICKERS = ["🦄","🚀","🐥","🐼","🦖","🌟","🚗","🎈","🍭","🧸","🐬","🦋","🌈","🐢","🦊","🐸","🐵","🦕","🍦","🎉","🏆","👏","🐯","🦉"];
 const PRAISE = ["Yes! Great job!","Wow, you got it!","Super! Well done!","You are so smart!"];
-const TRY = ["Almost! Try again.","Hmm, look again!","Try the other one."];
-const WEB_REQUIRES = ["colors","numbers","alphabet"];
+const TRY = ["Almost! Try again.","Hmm, look again!","Try the other answer."];
 
-/* ---------- Storage: one profile per child ---------- */
 let db;
 try { db = JSON.parse(localStorage.getItem(STORE)); } catch (e) { db = null; }
 if (!db){
   db = { players: [], current: null };
   try {
-    const old = JSON.parse(localStorage.getItem("littleExplorers.v1"));
-    if (old){
-      db.players.push({ id:"p1", name:"Player 1", stars:old.stars||0, stickers:old.stickers||[], unlocked:old.unlocked||["colors"], done:[] });
-      db.current = "p1";
-    }
+    const old = JSON.parse(localStorage.getItem("bubblyboo.v2"));
+    if (old && old.players) db = old;
   } catch (e) {}
 }
-function save(){ try { localStorage.setItem(STORE, JSON.stringify(db)); } catch (e) {} }
 db.players.forEach(p => {
-  if (!p.progress) p.progress = {};
-  if (!p.unlocked.includes("web") && WEB_REQUIRES.every(id => p.done.includes(id))) p.unlocked.push("web");
-  if (!p.unlocked.includes("webby") && p.done.includes("web")) p.unlocked.push("webby");
+  p.stickers = p.stickers || [];
+  p.unlocked = p.unlocked || ["colors"];
+  p.done = p.done || [];
+  p.progress = p.progress || {};
+  p.best = p.best || {};
 });
+function save(){ try { localStorage.setItem(STORE, JSON.stringify(db)); } catch (e) {} }
 function P(){ return db.players.find(p => p.id === db.current); }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]); }
 function updateHeader(){
@@ -234,326 +231,90 @@ const TOPICS = [
       label: ans, text: "What comes next?", say: spoken, ask: "What comes next?" })) }
 ];
 function findTopic(id){ return TOPICS.find(t => t.id === id); }
-function webUnlocked(){ const p = P(); return WEB_REQUIRES.every(id => p.done.includes(id)); }
+
+/* ---------- Worlds ---------- */
+const WORLDS = [
+  ...TOPICS.map(t => ({ id: t.id, icon: t.icon, title: t.title, kind: "topic" })),
+  { id: "math", icon: "➕", title: "Math Flight", kind: "math" },
+  { id: "spell", icon: "✏️", title: "Spelling Quest", kind: "spell" }
+];
+const WORLD_BY = id => WORLDS.find(w => w.id === id);
+const GOAL_STEP = 12000;
+const GATE_GAP = 900;
+const SPELL = [["cat","🐱"],["dog","🐶"],["sun","☀️"],["hat","🎩"],["cup","🥤"],["bus","🚌"],["egg","🥚"],["bed","🛏️"],
+  ["fish","🐟"],["frog","🐸"],["bird","🐦"],["tree","🌳"],["star","⭐"],["moon","🌙"],["rain","🌧️"],["cake","🎂"],
+  ["book","📖"],["duck","🦆"],["apple","🍎"],["lion","🦁"],["horse","🐴"],["train","🚂"],["snow","❄️"],["flower","🌸"]];
+
+/* ---------- Game state ---------- */
+const cv = $("#cv"), cx = cv.getContext("2d");
+let G = null, rafId = null, lastT = 0;
+function groundY(){ return cv.height * 0.84; }
+
+function hideGame(){
+  if (rafId) cancelAnimationFrame(rafId);
+  rafId = null; G = null;
+  $("#game").style.display = "none";
+  $("#quiz").style.display = "none";
+  $("#result").style.display = "none";
+}
 
 /* ---------- Screens ---------- */
-let curTopic = null, curItem = null, curTab = "home";
-let qRound = 0, qScore = 0, qTarget = null, qOpts = [], busy = false;
-let webTimers = [], webLeft = 0, webCaught = 0;
-
 function profiles(){
-  curTab = "profiles"; clearWeb();
+  hideGame();
   app.innerHTML = `
     <section class="panel">
-      <h2 style="text-align:center">Who is playing?</h2>
+      <div class="title">Who is flying today? 🕷️</div>
       <div class="grid">
-        ${db.players.map(p => `<button class="tile" data-act="pick" data-id="${p.id}"><div>🧒</div><small>${esc(p.name)}</small></button>`).join("")}
-        <button class="tile" data-act="add"><div>➕</div><small>Add player</small></button>
+        ${db.players.map(p => `<button class="card" data-act="pick" data-id="${p.id}"><div>🧒</div><small>${esc(p.name)}</small></button>`).join("")}
+        <button class="card" data-act="add"><div>➕</div><small>Add player</small></button>
       </div>
     </section>`;
 }
 
 function home(){
-  curTab = "home"; clearWeb();
+  hideGame();
   const p = P();
-  const webOpen = p.unlocked.includes("web");
   app.innerHTML = `
-    <p class="hello">Hi ${esc(p.name)}! Pick a topic.</p>
-    <div class="grid">
-      ${TOPICS.map(t => {
-        const u = p.unlocked.includes(t.id), d = p.done.includes(t.id);
-        return `<button class="tile ${u ? "" : "locked"}" data-act="topic" data-id="${t.id}">
-          <div>${u ? t.icon : "🔒"}</div><small>${d ? "✅ " : ""}${t.title}</small></button>`;
-      }).join("")}
-      <button class="tile ${webOpen ? "" : "locked"}" data-act="web">
-        <div>${webOpen ? "🕸️" : "🔒"}</div><small>${p.done.includes("web") ? "✅ " : ""}Bonus: Web Hero</small></button>
-      <button class="tile ${p.unlocked.includes("webby") ? "" : "locked"}" data-act="webby">
-        <div>${p.unlocked.includes("webby") ? "🕷️" : "🔒"}</div><small>${p.done.includes("webby") ? "✅ " : ""}Stage 2: Webby</small></button>
-    </div>
-    <h3 style="text-align:center;margin-top:24px">My stickers</h3>
-    <div class="stick">${p.stickers.map(s => `<span>${s}</span>`).join("") || "<i>Play to earn stickers!</i>"}</div>`;
+    <div class="panel">
+      <div class="title">Hi ${esc(p.name)}! Pick a world 🌍</div>
+      <p class="caption">Webby the spider swings through the city. Answer the gates to keep flying!</p>
+      <div class="grid">
+        ${WORLDS.map(w => {
+          const u = p.unlocked.includes(w.id), d = p.done.includes(w.id);
+          return `<button class="card ${u ? "" : "locked"}" data-act="world" data-id="${w.id}">
+            <div>${u ? w.icon : "🔒"}</div><small>${w.title}</small>
+            <span class="badge">${d ? "✅ Complete" : (u ? "Ready" : "Locked")}</span></button>`;
+        }).join("")}
+      </div>
+      <div class="title" style="margin-top:22px;font-size:1.2rem">My stickers</div>
+      <div class="stick">${p.stickers.map(s => `<span>${s}</span>`).join("") || "<i>Fly and answer to earn stickers!</i>"}</div>
+    </div>`;
 }
 
-function openTopic(id, tab = "learn", fromHome = false){
-  curTopic = findTopic(id);
-  curTab = tab;
+function worldCard(id){
+  const w = WORLD_BY(id), p = P();
+  if (!p.unlocked.includes(id)){ say("Ask a grown-up to open this world."); return; }
   app.innerHTML = `
-    <div class="bar"><button data-act="home">⬅ Home</button><h2>${curTopic.icon} ${curTopic.title}</h2></div>
-    <div class="tabs">
-      <button class="tab ${tab === "learn" ? "on" : ""}" data-act="tab" data-tab="learn">📖 Learn</button>
-      <button class="tab ${tab === "play" ? "on" : ""}" data-act="tab" data-tab="play">🎮 Play</button>
-    </div>
-    <div id="pane"></div>`;
-  if (fromHome) say(curTopic.intro);
-  if (tab === "play") startPlay(); else learnGrid();
+    <div class="panel" style="text-align:center">
+      <div style="font-size:4.5rem">${w.icon}</div>
+      <div class="title">${w.title}</div>
+      <p class="caption">Tap the screen to release and grab the next web. Answer the gates to keep flying!</p>
+      <p class="caption" style="font-size:1rem">Best flight: ${p.best[id] || 0} · ${p.done.includes(id) ? "✅ Complete" : "Not finished yet"}</p>
+      <div class="row">
+        <button class="btn" data-act="start" data-id="${id}">🕷️ Start flying</button>
+        <button data-act="home">⬅ Back</button>
+      </div>
+    </div>`;
+  say(`${w.title}! Tap to swing. Answer the gates to keep flying!`);
 }
 
-function learnGrid(){
-  curTab = "learn";
-  $("#pane").innerHTML = `<div class="grid">${curTopic.items.map((it, i) =>
-    `<button class="tile" data-act="item" data-i="${i}">${it.show}<small>${it.text}</small></button>`).join("")}</div>`;
-}
-
-function showLesson(i){
-  curItem = curTopic.items[i];
-  const it = curItem;
-  $("#pane").innerHTML = `
-    <div class="big">${it.show}</div>
-    ${it.label !== it.show ? `<div class="label">${it.label}</div>` : ""}
-    <div class="caption">${it.text}</div>
-    ${it.tip ? `<div class="tip">💡 ${it.tip}</div>` : ""}
-    <div class="row">
-      <button class="btn" data-act="hear">🔊 Hear again</button>
-      ${it.slow ? `<button data-act="slow">🐢 Say it slowly</button>` : ""}
-    </div>
-    <div class="row"><button data-act="tab" data-tab="learn">⬅ All pictures</button></div>`;
-  say(it.say);
-}
-
-/* ---------- Play quiz (endless, gets harder with each level) ---------- */
-const PROGRESS_PER_LEVEL = 5, STAGE_GOAL = 15;
-function topicProgress(){ const p = P(); p.progress = p.progress || {}; return p.progress[curTopic.id] || 0; }
-function startPlay(){ playRound(); }
-
-function playRound(){
-  if (curTab !== "play") return;
-  const items = curTopic.items;
-  const progress = topicProgress();
-  const level = Math.floor(progress / PROGRESS_PER_LEVEL) + 1;
-  const optCount = Math.min(3 + Math.floor((level - 1) / 2), 5);
-  qTarget = pick(items);
-  const others = shuffle(items.filter(i => i !== qTarget && i.label !== qTarget.label)).slice(0, optCount - 1);
-  qOpts = shuffle([qTarget, ...others]);
-  busy = false;
-  const toNext = PROGRESS_PER_LEVEL - (progress % PROGRESS_PER_LEVEL);
-  $("#pane").innerHTML = `
-    <div class="round">Level ${level} · ${toNext} more to level up · ⭐ ${P().stars}</div>
-    <div class="big">${qTarget.show}</div>
-    <button class="ask" data-act="ask">🔊 ${qTarget.ask}</button>
-    <div class="opts">${qOpts.map((o, k) => `<button class="opt" data-act="opt" data-k="${k}">${o.label}</button>`).join("")}</div>
-    <div id="fb"></div>`;
-  say(qTarget.ask);
-}
-
-function answer(k){
-  if (busy) return;
-  const o = qOpts[k];
-  if (o !== qTarget){
-    say(pick(TRY));
-    const b = document.querySelectorAll(".opt")[k];
-    b.classList.add("shake");
-    setTimeout(() => b.classList.remove("shake"), 500);
-    return;
-  }
-  busy = true;
-  const p = P();
-  p.progress = p.progress || {};
-  const before = p.progress[curTopic.id] || 0;
-  const now = before + 1;
-  p.progress[curTopic.id] = now;
-  p.stars++;
-  let extra = "", spoken = pick(PRAISE) + " " + qTarget.name;
-  if (p.stars % 5 === 0){
-    const s2 = STICKERS.find(x => !p.stickers.includes(x));
-    if (s2){ p.stickers.push(s2); extra += `<div class="sticker">New sticker: ${s2}</div>`; }
-  }
-  if (now % PROGRESS_PER_LEVEL === 0){
-    const newLevel = now / PROGRESS_PER_LEVEL + 1;
-    extra += `<div class="caption">🎊 Level up! Now level ${newLevel}!</div>`;
-    spoken += ` Level up! You are now level ${newLevel}!`;
-  }
-  if (now === STAGE_GOAL && !p.done.includes(curTopic.id)){
-    p.done.push(curTopic.id);
-    extra += `<div class="caption">✅ Stage complete! Keep playing for more stars!</div>`;
-    spoken += " Stage complete!";
-  }
-  if (webUnlocked() && !p.unlocked.includes("web")) p.unlocked.push("web");
-  save(); updateHeader();
-  $("#fb").innerHTML = `<div class="ok">🎉 Yes! ${qTarget.name}!</div>${extra}`;
-  say(spoken);
-  setTimeout(playRound, 2200);
-}
-
-/* ---------- Bonus: Web Hero (endless bug waves) ---------- */
-const WEB_WAVES_FOR_STAGE = 3;
-let webWave = 0, webGap = 1500, webLife = 2600, waveEnding = false;
-
-function openWeb(){
-  if (!P().unlocked.includes("web")){ say("Ask a grown-up to open this game."); return; }
-  curTab = "web";
-  clearWeb();
-  app.innerHTML = `
-    <div class="bar"><button data-act="home">⬅ Home</button><h2>🕸️ Web Hero</h2></div>
-    <div class="round" id="wtitle"></div>
-    <div class="field" id="field"></div>
-    <div class="round" id="score"></div>`;
-  webCaught = 0;
-  say("Web Hero! Tap the bugs before they fly away!");
-  startWave(1);
-}
-
-function startWave(n){
-  if (curTab !== "web") return;
-  webWave = n;
-  webLeft = 6 + n * 2;
-  webGap = Math.max(900, 1500 - n * 120);
-  webLife = Math.max(1600, 2600 - n * 150);
-  waveEnding = false;
-  $("#wtitle").textContent = `Wave ${n} · Tap the bugs before they fly away!`;
-  $("#score").textContent = `Bugs caught: ${webCaught}`;
-  say(`Wave ${n}!`);
-  webTimers.push(setTimeout(nextBug, 1200));
-}
-
-function nextBug(){
-  if (curTab !== "web" || webLeft <= 0) return;
-  const f = $("#field");
-  if (!f) return;
-  webLeft--;
-  const b = document.createElement("button");
-  b.className = "bug";
-  b.dataset.act = "bug";
-  b.textContent = pick(["🐞","🪲","🦗","🪰"]);
-  b.style.left = (5 + rand(78)) + "%";
-  b.style.top = (5 + rand(72)) + "%";
-  f.appendChild(b);
-  webTimers.push(setTimeout(() => { b.remove(); checkWebEnd(); }, webLife));
-  webTimers.push(setTimeout(nextBug, webGap));
-}
-
-function catchBug(b){
-  if (!b || b.dataset.gone) return;
-  b.dataset.gone = "1";
-  webCaught++;
-  const p = P(); p.stars++; save(); updateHeader();
-  const sc = $("#score"); if (sc) sc.textContent = `Bugs caught: ${webCaught}`;
-  b.textContent = "💥";
-  say(pick(["Got it!","Pow!","Nice web!"]));
-  setTimeout(() => { b.remove(); checkWebEnd(); }, 300);
-}
-
-function checkWebEnd(){
-  const f = $("#field");
-  if (webLeft <= 0 && f && f.children.length === 0) waveDone();
-}
-
-function waveDone(){
-  if (curTab !== "web" || waveEnding) return;
-  waveEnding = true;
-  const p = P();
-  $("#wtitle").textContent = `Wave ${webWave} complete! Get ready...`;
-  say(`Wave ${webWave} complete!`);
-  if (webWave >= WEB_WAVES_FOR_STAGE && !p.done.includes("web")){
-    p.done.push("web");
-    if (!p.unlocked.includes("webby")) p.unlocked.push("webby");
-    save();
-    $("#wtitle").textContent = "Web Hero complete! Keep going for more bugs!";
-    say("Web Hero complete! Stage 2 is open!");
-  }
-  webTimers.push(setTimeout(() => startWave(webWave + 1), 2500));
-}
-
-function clearWeb(){ webTimers.forEach(clearTimeout); webTimers = []; webLeft = 0; clearTimeout(wTimer); }
-
-/* ---------- Stage 2: Webby's City Swing (6 levels, then endless) ---------- */
-const WEBBY_SWINGS = 8;
-const isNum = it => /^\d+$/.test(it.label);
-const WEBBY_LEVELS = [
-  { name:"Colors & Shapes", pool:() => findTopic("colors").items,
-    face: it => it.show, prompt: it => `Tap the ${it.name}.` },
-  { name:"Numbers 1 to 10", pool:() => findTopic("numbers").items.slice(0, 10),
-    face: it => it.label, prompt: it => `Tap the number ${it.text}.` },
-  { name:"Letters A to J", pool:() => findTopic("alphabet").items.slice(0, 10),
-    face: it => it.show, prompt: it => `Find the letter ${it.name}.` },
-  { name:"Numbers 11 to 20", pool:() => findTopic("numbers").items.slice(10, 20),
-    face: it => it.label, prompt: it => `Tap the number ${it.text}.` },
-  { name:"Letters K to T", pool:() => findTopic("alphabet").items.slice(10, 20),
-    face: it => it.show, prompt: it => `Find the letter ${it.name}.` },
-  { name:"Mixed Challenge",
-    pool:() => [...findTopic("colors").items, ...findTopic("numbers").items, ...findTopic("alphabet").items],
-    face: it => isNum(it) ? it.label : it.show,
-    prompt: it => isNum(it) ? `Tap the number ${it.text}.` : (findTopic("alphabet").items.includes(it) ? `Find the letter ${it.name}.` : `Tap the ${it.name}.`) }
-];
-const SLOTS = [{l:6,t:30},{l:56,t:20},{l:18,t:62},{l:62,t:58}];
-let wLevel = 0, wRound = 0, wTarget = null, wOpts = [], wBusy = false, wHeroPos = {l:4, t:4}, wTimer = null;
-
-function openWebby(){
-  if (!P().unlocked.includes("webby")){ say("Ask a grown-up to open this game."); return; }
-  curTab = "webby"; clearWeb();
-  wLevel = 0; wRound = 0; wHeroPos = {l:4, t:4};
-  app.innerHTML = `
-    <div class="bar"><button data-act="home">⬅ Home</button><h2>🕷️ Webby's City Swing</h2></div>
-    <div class="round" id="wlabel"></div>
-    <div class="city" id="city"></div>
-    <div class="round" id="wfb"></div>`;
-  say("Webby is ready! Tap the right sign to swing!");
-  webbyRound();
-}
-
-function webbyRound(){
-  if (curTab !== "webby") return;
-  if (wRound >= WEBBY_SWINGS){
-    wRound = 0;
-    if (wLevel < WEBBY_LEVELS.length - 1){
-      wLevel++;
-      say(`Level ${wLevel + 1}! ${WEBBY_LEVELS[wLevel].name}!`);
-    } else {
-      const p = P();
-      if (!p.done.includes("webby")){ p.done.push("webby"); save(); say("Stage 2 complete! Keep swinging for more stars!"); }
-      else say("Bonus swing round!");
-    }
-  }
-  const lv = WEBBY_LEVELS[wLevel];
-  const pool = lv.pool();
-  wTarget = pick(pool);
-  const others = shuffle(pool.filter(i => i !== wTarget && i.label !== wTarget.label && i.name !== wTarget.name)).slice(0, 3);
-  wOpts = shuffle([wTarget, ...others]);
-  const slots = shuffle([...SLOTS]);
-  wBusy = false;
-  $("#wlabel").textContent = `Level ${wLevel + 1} of ${WEBBY_LEVELS.length} · Swing ${wRound + 1} of ${WEBBY_SWINGS} · ⭐ ${P().stars}`;
-  $("#wfb").innerHTML = "";
-  $("#city").innerHTML = `
-    <div class="bld" style="left:0;width:20%;height:50%"></div>
-    <div class="bld" style="left:22%;width:16%;height:66%"></div>
-    <div class="bld" style="right:0;width:22%;height:56%"></div>
-    <div class="hero" id="hero" style="left:${wHeroPos.l}%;top:${wHeroPos.t}%">🕷️</div>
-    ${wOpts.map((o, k) => `<button class="sign" data-act="sign" data-k="${k}" style="left:${slots[k].l}%;top:${slots[k].t}%">${lv.face(o)}</button>`).join("")}`;
-  say(lv.prompt(wTarget));
-}
-
-function signTap(el){
-  if (wBusy) return;
-  const o = wOpts[+el.dataset.k];
-  if (o === wTarget){
-    wBusy = true;
-    const p = P(); p.stars++; save(); updateHeader();
-    const pos = { l: parseFloat(el.style.left), t: Math.max(0, parseFloat(el.style.top) - 14) };
-    wHeroPos = pos;
-    const h = $("#hero");
-    if (h){ h.style.left = pos.l + "%"; h.style.top = pos.t + "%"; }
-    el.classList.add("hit");
-    $("#wfb").innerHTML = `<div class="ok">🎉 Yes! ${wTarget.name}!</div>`;
-    say(pick(PRAISE) + " " + wTarget.name);
-    wRound++;
-    wTimer = setTimeout(webbyRound, 1800);
-  } else {
-    say(pick(TRY));
-    el.classList.add("shake");
-    setTimeout(() => el.classList.remove("shake"), 500);
-  }
-}
-
-/* ---------- Parent area ---------- */
 function parent(){
-  curTab = "parent"; clearWeb();
   const p = P();
   app.innerHTML = `
     <section class="panel">
-      <h2>Grown-up settings for ${esc(p.name)}</h2>
-      <p>Open topics one at a time. Games open automatically when earned, and you can lock or unlock any of them here.</p>
-      ${TOPICS.map(t => `<label><input type="checkbox" data-t="${t.id}" ${p.unlocked.includes(t.id) ? "checked" : ""}> ${t.icon} ${t.title}</label>`).join("")}
-      <label><input type="checkbox" data-t="web" ${p.unlocked.includes("web") ? "checked" : ""}> 🕸️ Bonus: Web Hero</label>
-      <label><input type="checkbox" data-t="webby" ${p.unlocked.includes("webby") ? "checked" : ""}> 🕷️ Stage 2: Webby</label>
+      <div class="title">Grown-up settings for ${esc(p.name)}</div>
+      <p class="caption" style="font-size:1rem">Turn worlds on or off. The next world opens automatically when you finish one.</p>
+      ${WORLDS.map(w => `<label><input type="checkbox" data-t="${w.id}" ${p.unlocked.includes(w.id) ? "checked" : ""}> ${w.icon} ${w.title}</label>`).join("")}
       <div class="row" style="margin-top:18px">
         <button data-act="reset">🗑️ Reset this player</button>
         <button data-act="addp">➕ Add player</button>
@@ -562,50 +323,392 @@ function parent(){
     </section>`;
 }
 
-/* ---------- Events ---------- */
-app.addEventListener("click", e => {
+/* ---------- Questions ---------- */
+function packQ(ask, show, values, correctValue){
+  const vals = shuffle(values.slice());
+  return { ask, show, labels: vals, correct: vals.indexOf(correctValue) };
+}
+
+function makeQuestion(w, lvl){
+  const n = lvl >= 2 ? 4 : 3;
+  if (w.kind === "math"){
+    const max = [10, 20, 50][Math.min(lvl - 1, 2)];
+    let ans, ask, show;
+    if (Math.random() < 0.5){
+      const sum = 2 + rand(max - 1), a = 1 + rand(sum - 1), b = sum - a;
+      ans = sum; ask = `What is ${a} plus ${b}?`; show = `${a} + ${b} = ?`;
+    } else {
+      const a = 2 + rand(max - 1), b = 1 + rand(a - 1);
+      ans = a - b; ask = `What is ${a} minus ${b}?`; show = `${a} − ${b} = ?`;
+    }
+    const vals = new Set([ans]);
+    while (vals.size < n){ const d = ans + rand(7) - 3; if (d >= 0) vals.add(d); }
+    return packQ(ask, show, [...vals].map(String), String(ans));
+  }
+  if (w.kind === "spell"){
+    const list = SPELL.filter(([word]) => lvl >= 2 || word.length <= 3);
+    const [word, emo] = pick(list);
+    const pos = rand(word.length), correct = word[pos];
+    const shown = [...word].map((c, i) => (i === pos ? "_" : c)).join(" ");
+    const show = `<div style="font-size:3.2rem">${emo}</div><div style="letter-spacing:.2em">${shown}</div>`;
+    const L = "abcdefghijklmnopqrstuvwxyz", vals = new Set([correct]);
+    while (vals.size < n) vals.add(L[rand(26)]);
+    return packQ("Which letter is missing?", show, [...vals], correct);
+  }
+  const items = findTopic(w.id).items;
+  const target = pick(items);
+  const others = shuffle(items.filter(i => i !== target && i.label !== target.label)).slice(0, n - 1);
+  const vals = shuffle([target, ...others]);
+  return { ask: target.ask, show: target.show, labels: vals.map(v => v.label), correct: vals.indexOf(target) };
+}
+
+/* ---------- Sound ---------- */
+let actx = null;
+function beep(f = 600, d = 0.12){
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.frequency.value = f; g.gain.value = 0.08;
+    o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime + d);
+  } catch (e) {}
+}
+
+/* ---------- Flight ---------- */
+function startGame(id){
+  if (rafId) cancelAnimationFrame(rafId);
+  cv.width = innerWidth; cv.height = innerHeight;
+  const H = cv.height;
+  G = { w: WORLD_BY(id), hearts: 3, stars: 0, correct: 0, dist: 0, goal: GOAL_STEP,
+        over: false, quizOpen: false, answering: false, tries: 0, q: null,
+        gateX: 260 + GATE_GAP, lastAx: 260, inv: 0, bugs: [], anchors: [] };
+  G.anchors.push({ x: 260, y: H * 0.3 });
+  const h = { x: 0, y: 0, vx: 0, vy: 0, attached: true, ax: 260, ay: H * 0.3, L: 200, th: 0.9, w: 0 };
+  h.x = h.ax + h.L * Math.sin(h.th); h.y = h.ay + h.L * Math.cos(h.th);
+  G.hero = h;
+  ensureAnchors();
+  $("#game").style.display = "block";
+  $("#quiz").style.display = "none";
+  $("#result").style.display = "none";
+  lastT = performance.now();
+  say("Webby is flying! Tap to let go and swing!");
+  rafId = requestAnimationFrame(loop);
+}
+
+function ensureAnchors(){
+  const H = cv.height;
+  let last = G.anchors[G.anchors.length - 1];
+  while (last.x < G.hero.x + cv.width * 1.2){
+    last = { x: last.x + 280 + rand(160), y: H * (0.12 + Math.random() * 0.26) };
+    G.anchors.push(last);
+    if (Math.random() < 0.45)
+      G.bugs.push({ x: last.x + 140 + rand(120), y0: H * (0.3 + Math.random() * 0.35), ph: Math.random() * 6 });
+  }
+  G.anchors = G.anchors.filter(a => a.x > G.hero.x - 900);
+  G.bugs = G.bugs.filter(b => b.x > G.hero.x - 900);
+}
+
+function tryAttach(){
+  const h = G.hero;
+  let best = null, bd = 1e9;
+  for (const a of G.anchors){
+    const d = Math.hypot(a.x - h.x, a.y - h.y);
+    if (a.x > G.lastAx + 30 && a.x > h.x - 60 && d > 140 && d < 440 && d < bd){ best = a; bd = d; }
+  }
+  if (!best){ beep(300, 0.08); return; }
+  h.attached = true; h.ax = best.x; h.ay = best.y; h.L = bd;
+  h.th = Math.atan2(h.x - best.x, h.y - best.y);
+  h.w = (h.vx * Math.cos(h.th) - h.vy * Math.sin(h.th)) / h.L;
+  G.lastAx = best.x;
+  beep(520, 0.1);
+}
+
+function release(){
+  const h = G.hero;
+  h.attached = false;
+  h.vx = h.L * h.w * Math.cos(h.th);
+  h.vy = -h.L * h.w * Math.sin(h.th);
+  if (h.vx < 220) h.vx = 220;
+  beep(660, 0.08);
+}
+
+function update(dt){
+  const h = G.hero, t = performance.now() / 1000;
+  if (h.attached){
+    h.w += (-(900 / h.L) * Math.sin(h.th)) * dt;
+    h.w *= Math.pow(0.995, dt * 60);
+    h.th += h.w * dt;
+    h.x = h.ax + h.L * Math.sin(h.th);
+    h.y = h.ay + h.L * Math.cos(h.th);
+  } else {
+    h.vy += 900 * dt;
+    h.x += h.vx * dt;
+    h.y += h.vy * dt;
+  }
+  if (h.y > groundY() - 20) return crash();
+  if (G.inv > 0) G.inv -= dt;
+  else {
+    for (const b of G.bugs){
+      const by = b.y0 + Math.sin(t * 2 + b.ph) * 40;
+      if (Math.abs(b.x - h.x) < 40 && Math.abs(by - h.y) < 40) return hit();
+    }
+  }
+  G.dist = Math.max(0, Math.round(h.x - 260));
+  if (!G.quizOpen && h.x >= G.gateX) openQuiz();
+  if (!G.goalShown && G.dist >= G.goal) showGoal();
+}
+
+function hit(){
+  const h = G.hero;
+  G.hearts--; G.inv = 1.5; beep(160, 0.3);
+  if (!h.attached) h.vy = -260;
+  say("Ouch! Be careful, Webby!");
+  if (G.hearts <= 0) endGame();
+}
+
+function crash(){
+  G.hearts--; beep(120, 0.3);
+  if (G.hearts <= 0) return endGame();
+  const h = G.hero;
+  const a = G.anchors.filter(p => p.x > h.x - 100).sort((p, q) => p.x - q.x)[0]
+         || { x: h.x + 300, y: cv.height * 0.3 };
+  G.lastAx = a.x - 1;
+  h.attached = true; h.ax = a.x; h.ay = a.y; h.L = 200; h.th = 0.6; h.w = 0;
+  h.x = h.ax + h.L * Math.sin(h.th); h.y = h.ay + h.L * Math.cos(h.th);
+  G.inv = 1.5;
+  say("Oops! Webby is back up. Keep going!");
+}
+
+function level(){ return 1 + Math.floor(G.dist / 3000); }
+
+function openQuiz(){
+  G.quizOpen = true; G.answering = false; G.tries = 0;
+  G.q = makeQuestion(G.w, level());
+  $("#qAsk").textContent = G.q.ask;
+  $("#qShow").innerHTML = G.q.show;
+  $("#qOpts").innerHTML = G.q.labels.map((l, k) => `<button class="qb" data-act="qa" data-k="${k}">${l}</button>`).join("");
+  $("#qFb").textContent = "";
+  $("#quiz").style.display = "flex";
+  say(G.q.ask);
+}
+
+function closeQuiz(){
+  G.quizOpen = false; G.answering = false;
+  G.gateX += GATE_GAP;
+  $("#quiz").style.display = "none";
+}
+
+function answerQuiz(k){
+  if (!G || !G.quizOpen || G.answering) return;
+  if (k === G.q.correct){
+    G.answering = true;
+    G.correct++; G.stars++;
+    const p = P(); p.stars++;
+    let extra = "";
+    if (p.stars % 5 === 0){
+      const s = STICKERS.find(x => !p.stickers.includes(x));
+      if (s){ p.stickers.push(s); extra = " You got a new sticker!"; }
+    }
+    save(); updateHeader(); beep(880, 0.15);
+    $("#qFb").textContent = "🎉 Yes! Webby swings on!";
+    say(pick(PRAISE) + extra);
+    setTimeout(closeQuiz, 1000);
+  } else {
+    G.tries++; beep(170, 0.2);
+    const b = document.querySelectorAll(".qb")[k];
+    if (b){ b.classList.add("shake"); setTimeout(() => b.classList.remove("shake"), 450); }
+    if (G.tries >= 2){
+      G.answering = true;
+      $("#qFb").textContent = "Good try! Webby keeps flying!";
+      say("Good try! Let's keep flying.");
+      setTimeout(closeQuiz, 1400);
+    } else say(pick(TRY));
+  }
+}
+
+function showResult(html){
+  $("#resCard").innerHTML = html;
+  $("#result").style.display = "flex";
+}
+
+function endGame(){
+  G.over = true;
+  const p = P();
+  p.best[G.w.id] = Math.max(p.best[G.w.id] || 0, G.dist); save();
+  showResult(`<div class="title">Good flying, Webby! 🕷️</div>
+    <p class="caption">Distance: ${G.dist} · Correct answers: ${G.correct} · ⭐ ${G.stars}</p>
+    <div class="row"><button class="btn" data-act="again" data-id="${G.w.id}">🕷️ Fly again</button>
+    <button data-act="quitGame">🏠 Home</button></div>`);
+  say("Good flying! Let's try again.");
+}
+
+function showGoal(){
+  G.goalShown = true; G.over = true;
+  const p = P();
+  const i = WORLDS.findIndex(w => w.id === G.w.id);
+  const next = WORLDS[i + 1];
+  if (!p.done.includes(G.w.id)) p.done.push(G.w.id);
+  if (next && !p.unlocked.includes(next.id)) p.unlocked.push(next.id);
+  p.best[G.w.id] = Math.max(p.best[G.w.id] || 0, G.dist);
+  save();
+  showResult(`<div class="title">🏆 Stage complete!</div>
+    <p class="caption">${G.w.title} is finished!${next ? " A new world is open." : ""}</p>
+    <div class="row"><button class="btn" data-act="keep">✈️ Keep flying</button>
+    <button data-act="quitGame">🏠 Home</button></div>`);
+  say("Stage complete! Amazing flying!");
+}
+
+function keepFlying(){
+  G.goal += GOAL_STEP; G.goalShown = false; G.over = false;
+  $("#result").style.display = "none";
+  lastT = performance.now();
+}
+
+/* ---------- Drawing ---------- */
+const BLDG_COLORS = ["#ff9aa2","#9bd4ff","#b5ead7","#ffdac1","#c7b8ff","#a0e7e5"];
+function hash(i){ const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+
+function drawCloud(x, y){
+  cx.fillStyle = "#ffffffcc";
+  cx.beginPath();
+  cx.arc(x, y, 26, 0, Math.PI * 2);
+  cx.arc(x + 30, y - 12, 32, 0, Math.PI * 2);
+  cx.arc(x + 64, y, 26, 0, Math.PI * 2);
+  cx.fill();
+}
+
+function drawSpider(x, y, t){
+  const leg = Math.sin(t * 12) * 6;
+  cx.strokeStyle = "#1d2140"; cx.lineWidth = 3;
+  for (const s of [-1, 1]){
+    for (let j = 0; j < 3; j++){
+      const dy = (j - 1) * 6, k = (j % 2 ? 1 : -1) * leg * s;
+      cx.beginPath();
+      cx.moveTo(x + s * 10, y + dy);
+      cx.lineTo(x + s * 34, y + dy * 2.5 + k);
+      cx.stroke();
+    }
+  }
+  cx.fillStyle = "#1d2140"; cx.beginPath(); cx.arc(x, y - 10, 10, 0, Math.PI * 2); cx.fill();
+  cx.fillStyle = "#e63946"; cx.beginPath(); cx.ellipse(x, y + 8, 17, 20, 0, 0, Math.PI * 2); cx.fill();
+  cx.fillStyle = "#ffffff"; cx.beginPath(); cx.arc(x, y + 4, 4, 0, Math.PI * 2); cx.arc(x - 6, y + 14, 3, 0, Math.PI * 2); cx.arc(x + 6, y + 14, 3, 0, Math.PI * 2); cx.fill();
+  cx.beginPath(); cx.arc(x - 4, y - 12, 3.5, 0, Math.PI * 2); cx.arc(x + 4, y - 12, 3.5, 0, Math.PI * 2); cx.fill();
+  cx.fillStyle = "#1d2140"; cx.beginPath(); cx.arc(x - 4, y - 12, 1.5, 0, Math.PI * 2); cx.arc(x + 4, y - 12, 1.5, 0, Math.PI * 2); cx.fill();
+}
+
+function draw(t){
+  const W = cv.width, H = cv.height, h = G.hero, cam = h.x - W * 0.3, ground = groundY();
+  const sky = cx.createLinearGradient(0, 0, 0, ground);
+  sky.addColorStop(0, "#4cc3ff"); sky.addColorStop(1, "#fff1c9");
+  cx.fillStyle = sky; cx.fillRect(0, 0, W, H);
+
+  cx.fillStyle = "#fff7a1"; cx.beginPath(); cx.arc(W * 0.85, H * 0.16, 48, 0, Math.PI * 2); cx.fill();
+
+  const c0 = Math.floor(cam * 0.25 / 420) - 1;
+  for (let i = c0; i < c0 + Math.ceil(W / 420) + 3; i++)
+    drawCloud(i * 420 - cam * 0.25, H * (0.08 + hash(i + 50) * 0.2));
+
+  const b0 = Math.floor(cam * 0.5 / 150) - 1;
+  for (let i = b0; i < b0 + Math.ceil(W / 150) + 3; i++){
+    const bw = 90 + hash(i) * 70, bh = 160 + hash(i + 7) * 260;
+    const x = i * 150 - cam * 0.5, y = ground - bh;
+    cx.fillStyle = BLDG_COLORS[Math.abs(i) % BLDG_COLORS.length];
+    cx.fillRect(x, y, bw, bh);
+    cx.fillStyle = "#ffffffaa";
+    for (let wy = y + 14; wy < ground - 24; wy += 26)
+      for (let wx = x + 12; wx < x + bw - 18; wx += 22) cx.fillRect(wx, wy, 10, 12);
+  }
+
+  cx.fillStyle = "#7bd389"; cx.fillRect(0, ground, W, H - ground);
+  cx.fillStyle = "#5fbf72";
+  for (let x = -(cam % 40); x < W; x += 40) cx.fillRect(x, ground + 6, 20, 8);
+
+  for (const a of G.anchors){
+    const x = a.x - cam;
+    if (x < -20 || x > W + 20) continue;
+    cx.strokeStyle = "#ffc300"; cx.lineWidth = 3;
+    cx.beginPath(); cx.arc(x, a.y, 13, 0, Math.PI * 2); cx.stroke();
+    cx.fillStyle = "#ffffff"; cx.beginPath(); cx.arc(x, a.y, 5, 0, Math.PI * 2); cx.fill();
+  }
+
+  const gx = G.gateX - cam;
+  if (gx > -40 && gx < W + 40){
+    cx.fillStyle = "#ffc300"; cx.fillRect(gx - 7, ground - 300, 14, 300);
+    cx.font = "48px serif"; cx.textAlign = "center"; cx.fillText("❓", gx, ground - 312);
+    cx.textAlign = "start";
+  }
+
+  for (const b of G.bugs){
+    const x = b.x - cam, y = b.y0 + Math.sin(t * 2 + b.ph) * 40;
+    if (x < -60 || x > W + 60) continue;
+    cx.font = "44px serif"; cx.textAlign = "center"; cx.fillText("🐞", x, y + 16);
+    cx.textAlign = "start";
+  }
+
+  if (h.attached){
+    cx.strokeStyle = "#ffffffdd"; cx.lineWidth = 2.5;
+    cx.beginPath(); cx.moveTo(h.ax - cam, h.ay); cx.lineTo(h.x - cam, h.y); cx.stroke();
+  }
+  if (!(G.inv > 0 && Math.floor(t * 10) % 2)) drawSpider(h.x - cam, h.y, t);
+}
+
+function hudTick(t){
+  if (G._hud && t - G._hud < 0.2) return;
+  G._hud = t;
+  const pct = Math.min(100, Math.round(G.dist / G.goal * 100));
+  $("#hud").innerHTML = `<span>${"❤️".repeat(Math.max(0, G.hearts))}</span>
+    <span>⭐ ${G.stars}</span>
+    <span class="bar2"><div style="width:${pct}%"></div></span>
+    <span>🕷️ ${G.dist}</span>`;
+}
+
+function loop(t){
+  if (!G) return;
+  const dt = Math.min(0.033, Math.max(0, (t - lastT) / 1000));
+  lastT = t;
+  if (!G.over && !G.quizOpen){ update(dt); ensureAnchors(); }
+  draw(t / 1000);
+  hudTick(t);
+  rafId = requestAnimationFrame(loop);
+}
+
+/* ---------- Controls ---------- */
+function flyTap(){
+  if (!G || G.over || G.quizOpen) return;
+  if (G.hero.attached) release(); else tryAttach();
+}
+cv.addEventListener("pointerdown", e => { e.preventDefault(); flyTap(); });
+window.addEventListener("keydown", e => {
+  if (e.code === "Space" && G){ e.preventDefault(); flyTap(); }
+});
+
+/* ---------- Clicks ---------- */
+document.addEventListener("click", e => {
   const el = e.target.closest("[data-act]");
   if (!el) return;
   const a = el.dataset.act;
-  if (a === "home") return home();
+  if (a === "home" || a === "quitGame" || a === "done") return home();
   if (a === "profiles") return profiles();
   if (a === "pick"){ db.current = el.dataset.id; save(); updateHeader(); return home(); }
   if (a === "add" || a === "addp"){
     const name = (prompt("Child's first name:") || "").trim();
     if (!name) return;
     const id = "p" + Date.now().toString(36);
-    db.players.push({ id, name, stars:0, stickers:[], unlocked:["colors"], done:[], progress:{} });
+    db.players.push({ id, name, stars: 0, stickers: [], unlocked: ["colors"], done: [], progress: {}, best: {} });
     db.current = id; save(); updateHeader();
     return a === "add" ? home() : parent();
   }
-  if (a === "topic"){
-    const t = findTopic(el.dataset.id);
-    if (!P().unlocked.includes(t.id)){ say("Ask a grown-up to open this one."); return; }
-    return openTopic(t.id, "learn", true);
-  }
-  if (a === "web") return openWeb();
-  if (a === "bug") return catchBug(el);
-  if (a === "tab"){
-    if (el.dataset.tab === "learn") return openTopic(curTopic.id, "learn");
-    return openTopic(curTopic.id, "play");
-  }
-  if (a === "item") return showLesson(+el.dataset.i);
-  if (a === "hear") return say(curItem.say);
-  if (a === "slow") return say(curItem.slow, 0.45);
-  if (a === "ask") return say(qTarget.ask);
-  if (a === "opt") return answer(+el.dataset.k);
-  if (a === "play") return openTopic(curTopic.id, "play");
+  if (a === "world") return worldCard(el.dataset.id);
+  if (a === "start" || a === "again") return startGame(el.dataset.id);
+  if (a === "qa") return answerQuiz(+el.dataset.k);
+  if (a === "keep") return keepFlying();
   if (a === "reset"){
-    if (confirm("Erase this player's stars, stickers and finished stages?")){
+    if (confirm("Erase this player's stars, stickers and finished worlds?")){
       const p = P();
-      Object.assign(p, { stars:0, stickers:[], unlocked:["colors"], done:[], progress:{} });
+      Object.assign(p, { stars: 0, stickers: [], unlocked: ["colors"], done: [], progress: {}, best: {} });
       save(); updateHeader(); parent();
     }
-    return;
   }
-  if (a === "webby") return openWebby();
-  if (a === "sign") return signTap(el);
-  if (a === "done") return home();
 });
 
 app.addEventListener("change", e => {
@@ -626,6 +729,7 @@ $("#parentBtn").addEventListener("click", () => {
 
 updateHeader();
 if (P()) home(); else profiles();
+
 </script>
 </body>
 </html>
